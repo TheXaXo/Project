@@ -364,4 +364,15 @@ class User extends \SoftUniBlogBundle\Entity\User implements \Doctrine\ORM\Proxy
         return parent::__toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function setRoles(array $roles)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRoles', [$roles]);
+
+        return parent::setRoles($roles);
+    }
+
 }

@@ -212,7 +212,7 @@ class User implements UserInterface
         $stringRoles = [];
         foreach ($this->roles as $role) {
             /** @var $role Role */
-            $stringRoles[] = $role->getRole();
+            $stringRoles[] = is_string($role) ? $role : $role->getRole();
         }
         return $stringRoles;
     }
@@ -253,6 +253,16 @@ class User implements UserInterface
     function __toString()
     {
         return $this->fullName;
+    }
+
+    /**
+     * @param array $roles
+     * @return $this
+     */
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+        return $this;
     }
 }
 
