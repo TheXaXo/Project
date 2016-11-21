@@ -1,0 +1,23 @@
+<div class="col-md-12">
+        <img src="http://localhost:3000/uploads/{{article.imgName}}" width="100%">
+        <p>
+            {{#each article.tags }}
+                <a class="btn btn-default btn-xs"
+                   href="/tag/{{this}}">{{this}}</a>
+            {{/each}}
+        </p>
+        <small class="author">
+            {{article.author.fullName}}
+        </small>
+        <footer>
+            <div class="pull-right">
+                <a class="btn btn-default btn-sm" href="/">&laquo; Back</a>
+                {{#if isUserAuthorized}}
+                    <a class="btn btn-success btn-sm"
+                       href="/article/edit/{{article.id}}">Edit</a>
+                    <a class="btn btn-danger btn-sm"
+                       href="/article/delete/{{article.id}}">Delete</a>
+                {{/if}}
+            </div>
+        </footer>
+</div>

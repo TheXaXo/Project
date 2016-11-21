@@ -1,0 +1,38 @@
+<form class="form-horizontal" method="POST" action="/article/create" enctype="multipart/form-data">
+    <fieldset>
+        <legend>Upload Wallpaper</legend>
+        <div class="form-group">
+            <label class="control-label col-sm-4">Picture</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="file" name="photo" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label"
+                   for="category">Category</label>
+            <div class="col-sm-4">
+                <select class="form-control" id="select" name="category">
+                    {{#each categories}}
+                        <option
+                                value="{{this.id}}">{{this.name}}
+                        </option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label" for="article_tags">Tags</label>
+            <div class="col-sm-4 ">
+                <input type="text" class="form-control" id="article_tags"
+                       placeholder="Tags"
+                       name="tagNames" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-4">
+                <button type="reset" class="btn btn-default">Cancel</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
