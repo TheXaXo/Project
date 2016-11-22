@@ -18,8 +18,8 @@ module.exports = {
     },
 
     index: (req, res) => {
-        Article.find({}).limit(18).populate('author').then(articles => {
-            res.render('home/index', {articles: articles});
+        Article.find({}).limit(15).populate('author').then(articles => {
+            res.render('home/articles', {articles: articles});
         })
     },
 
@@ -39,7 +39,6 @@ module.exports = {
                 }
             }
         });
-
         res.render('home/articles', {articles: articlesToSearch, error: 'Search wallpapers: ' + tagsAsText});
     }
 };

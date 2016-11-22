@@ -63,7 +63,6 @@ module.exports = (app, config) => {
                 app.locals.categories = categories;
             });
         }
-
         next();
     });
 
