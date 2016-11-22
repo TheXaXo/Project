@@ -4,6 +4,8 @@ let articleSchema = mongoose.Schema({
     author: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
     category: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Category'},
     imgName: {type: String, required: true},
+    width: {type: Number, required: true},
+    height: {type: Number, required: true},
     tags: [{type: String, required: true}],
     date: {type: Date, default: Date.now()}
 });

@@ -1,3 +1,4 @@
+const size = require('image-size');
 const Article = require('mongoose').model('Article');
 const Category = require('mongoose').model('Category');
 
@@ -35,6 +36,10 @@ module.exports = {
 
         let file = req.file;
         articleArgs.imgName = file.filename;
+        let dimensions = size(file.path);
+
+        articleArgs.width = dimensions.width;
+        articleArgs.height = dimensions.height;
 
         articleArgs.author = req.user.id;
         Article.create(articleArgs).then(article => {
