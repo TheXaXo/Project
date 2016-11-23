@@ -10,7 +10,7 @@ module.exports = {
         let currentPage = 0;
 
         if (pageFromQuery) {
-            currentPage = pageFromQuery;
+            currentPage = parseInt(pageFromQuery);
         }
 
         Article.find({}).populate('author').then(articles => {
@@ -20,12 +20,17 @@ module.exports = {
                 }
             }
 
-            var pages = new Object();
+            var pages = [];
             let articlesCount = articlesToSearch.length;
             let numberOfPages = Math.ceil(articlesCount / 3);
 
             for (var a = 1; a <= numberOfPages; a++) {
-                pages[a] = a - 1;
+                if (currentPage + 1 === a) {
+                    var page = {text: a, index: a - 1, isSelected: true};
+                } else {
+                    var page = {text: a, index: a - 1, isSelected: false};
+                }
+                pages.push(page);
             }
 
             articlesToSearch = articlesToSearch.slice(currentPage * 3, currentPage * 3 + 3);

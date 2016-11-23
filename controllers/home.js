@@ -11,7 +11,7 @@ module.exports = {
         let currentPage = 0;
 
         if (pageFromQuery) {
-            currentPage = pageFromQuery;
+            currentPage = parseInt(pageFromQuery);
         }
 
         Category.findById(id).populate('articles').then(category => {
@@ -22,18 +22,28 @@ module.exports = {
 
                 let categoryArticles = category.articles;
 
-                var pages = new Object();
+                var pages = [];
                 let articlesCount = categoryArticles.length;
                 let numberOfPages = Math.ceil(articlesCount / 3);
 
                 for (var a = 1; a <= numberOfPages; a++) {
-                    pages[a] = a - 1;
+                    if (currentPage + 1 === a) {
+                        var page = {text: a, index: a - 1, isSelected: true};
+                    } else {
+                        var page = {text: a, index: a - 1, isSelected: false};
+                    }
+                    pages.push(page);
                 }
 
                 categoryArticles = categoryArticles.slice(currentPage * 3, currentPage * 3 + 3);
                 let currentUrl = req.originalUrl.split("?")[0];
 
-                res.render('home/articles', {articles: categoryArticles, pages: pages, pagesExist: true, currentUrl, currentUrl})
+                res.render('home/articles', {
+                    articles: categoryArticles,
+                    pages: pages,
+                    pagesExist: true,
+                    currentUrl: currentUrl
+                })
             });
         });
     },
@@ -41,23 +51,28 @@ module.exports = {
     index: (req, res) => {
         let pageFromQuery = req.query.page;
 
-        let page = 0;
+        let currentPage = 0;
 
         if (pageFromQuery) {
-            page = pageFromQuery
+            currentPage = parseInt(pageFromQuery)
         }
 
-        var pages = new Object();
+        var pages = [];
         Article.find({}).then(articles => {
             let articlesCount = articles.length;
             let numberOfPages = Math.ceil(articlesCount / 3);
 
             for (var a = 1; a <= numberOfPages; a++) {
-                pages[a] = a - 1;
+                if (currentPage + 1 === a) {
+                    var page = {text: a, index: a - 1, isSelected: true};
+                } else {
+                    var page = {text: a, index: a - 1, isSelected: false};
+                }
+                pages.push(page);
             }
         });
 
-        Article.find({}).skip(page * 3).limit(3).then(articles => {
+        Article.find({}).skip(currentPage * 3).limit(3).then(articles => {
             res.render('home/articles', {articles: articles, pages: pages, pagesExist: true});
         })
     },
@@ -72,7 +87,7 @@ module.exports = {
         let currentPage = 0;
 
         if (pageFromQuery) {
-            currentPage = pageFromQuery;
+            currentPage = parseInt(pageFromQuery);
         }
 
         Article.find({}).populate('author').then(articles => {
@@ -85,19 +100,26 @@ module.exports = {
                 }
             }
 
-            var pages = new Object();
+            var pages = [];
             let articlesCount = articlesToSearch.length;
             let numberOfPages = Math.ceil(articlesCount / 3);
 
             for (var a = 1; a <= numberOfPages; a++) {
-                pages[a] = a - 1;
+                if (currentPage + 1 === a) {
+                    var page = {text: a, index: a - 1, isSelected: true};
+                } else {
+                    var page = {text: a, index: a - 1, isSelected: false};
+                }
+                pages.push(page);
             }
 
             let currentUrl = req.originalUrl.split("&")[0];
 
             articlesToSearch = articlesToSearch.slice(currentPage * 3, currentPage * 3 + 3);
-            res.render('home/articles', {articles: articlesToSearch, pages: pages,
-                pagesExist: true, appendWithAnd: true, currentUrl: currentUrl, error: 'Search wallpapers: ' + tagsAsText});
+            res.render('home/articles', {
+                articles: articlesToSearch, pages: pages,
+                pagesExist: true, appendWithAnd: true, currentUrl: currentUrl, error: 'Search wallpapers: ' + tagsAsText
+            });
         });
     }
 };

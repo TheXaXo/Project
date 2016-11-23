@@ -91,18 +91,28 @@
     <div class="col-md-12" style="text-align: center">
         <div>
             <ul class="pagination">
-                {{#eachInMap pages}}
+                {{#each pages}}
                     {{#if ../appendWithAnd}}
                         <li>
-                            <a href="{{../currentUrl}}&page={{value}}">{{key}}</a>
+                            {{#if this.isSelected}}
+                                <a href="{{../currentUrl}}&page={{this.index}}" class="btn active">{{this.text}}</a>
+                            {{/if}}
+                            {{#unless this.isSelected}}
+                                <a href="{{../currentUrl}}&page={{this.index}}">{{this.text}}</a>
+                            {{/unless}}
                         </li>
                     {{/if}}
                     {{#unless ../appendWithAnd}}
                         <li>
-                            <a href="{{../currentUrl}}?page={{value}}">{{key}}</a>
+                            {{#if this.isSelected}}
+                                <a href="{{../currentUrl}}?page={{this.index}}" class="btn active">{{this.text}}</a>
+                            {{/if}}
+                            {{#unless this.isSelected}}
+                                <a href="{{../currentUrl}}?page={{this.index}}">{{this.text}}</a>
+                            {{/unless}}
                         </li>
                     {{/unless}}
-                {{/eachInMap}}
+                {{/each}}
             </ul>
         </div>
     </div>
