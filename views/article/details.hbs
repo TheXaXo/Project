@@ -10,8 +10,11 @@
         {{article.author.fullName}}
     </small>
     <footer>
+        <p><br>Views: {{article.views}} </p>
+        <p>Downloads: 0</p>
         <div class="pull-right">
             <a class="btn btn-default btn-sm" href="/">&laquo; Back</a>
+            <a class="btn btn-default btn-sm" href ="/uploads/{{article.imgName}}" download="{{article.imgName}}">Download</a>
             {{#if isUserAuthorized}}
                 <a class="btn btn-success btn-sm"
                    href="/article/edit/{{article.id}}">Edit</a>

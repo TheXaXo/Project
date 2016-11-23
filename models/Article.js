@@ -7,7 +7,9 @@ let articleSchema = mongoose.Schema({
     width: {type: Number, required: true},
     height: {type: Number, required: true},
     tags: [{type: String, required: true}],
-    date: {type: Date, default: Date.now()}
+    date: {type: Date, default: Date.now()},
+    views: {type: Number, default: 0},
+    downloads: {type: Number, default: 0}
 });
 
 articleSchema.method({

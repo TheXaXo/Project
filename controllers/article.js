@@ -59,6 +59,9 @@ module.exports = {
         let id = req.params.id;
 
         Article.findById(id).populate('author').then(article => {
+            article.views += 1;
+            article.save();
+
             if (!req.user) {
                 res.render('article/details', {article: article, isUserAuthorized: false});
                 return;
