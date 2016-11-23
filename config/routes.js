@@ -11,7 +11,7 @@ module.exports = (app) => {
 
     app.get('/category/:id', homeController.listCategoryArticles);
 
-    app.post('/search', homeController.search);
+    app.get('/search', homeController.search);
 
     app.get('/article/create', articleController.createGet);
 
@@ -38,7 +38,6 @@ module.exports = (app) => {
     app.post('/article/create', upload.single('photo'), articleController.createPost);
 
     app.get('/article/details/:id', articleController.details);
-
     app.get('/article/edit/:id', articleController.editGet);
     app.post('/article/edit/:id', articleController.editPost);
 

@@ -5,6 +5,7 @@
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <script src="/javascripts/jquery-1.10.2.js"></script>
     <script src="/javascripts/bootstrap.js"></script>
+    <script src="/javascripts/search.js"></script>
 </head>
 <body>
 <header style="padding-bottom: 10px">
@@ -22,10 +23,8 @@
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <div class="navbar-form" role="search">
-                    <form class="form-group" method="POST" action="/search">
-                        <input type="text" class="form-control" placeholder="Search" name="tags">
-                        <button type="submit" class="btn btn-default">Search</button>
-                    </form>
+                    <input id="searchBar" value="" type="text" class="form-control" placeholder="Search" name="tags">
+                    <a id="button" href="" type="submit" class="btn btn-default">Search</a>
                 </div>
             </li>
             {{#if isAdmin}}
@@ -65,7 +64,8 @@
         <div class="list-group">
             {{#each categories}}
                 {{#if this.isChecked}}
-                    <a class="list-group-item" href="/category/{{this.id}}" style="color:#F2F2F2; background: slategrey">{{this.name}}</a>
+                    <a class="list-group-item" href="/category/{{this.id}}"
+                       style="color:#F2F2F2; background: slategrey">{{this.name}}</a>
                 {{/if}}
                 {{#unless this.isChecked}}
                     <a class="list-group-item" href="/category/{{this.id}}">{{this.name}}</a>
@@ -87,6 +87,26 @@
         </div>
     </div>
 </div>
+{{#if pagesExist}}
+    <div class="col-md-12" style="text-align: center">
+        <div>
+            <ul class="pagination">
+                {{#eachInMap pages}}
+                    {{#if ../appendWithAnd}}
+                        <li>
+                            <a href="{{../currentUrl}}&page={{value}}">{{key}}</a>
+                        </li>
+                    {{/if}}
+                    {{#unless ../appendWithAnd}}
+                        <li>
+                            <a href="{{../currentUrl}}?page={{value}}">{{key}}</a>
+                        </li>
+                    {{/unless}}
+                {{/eachInMap}}
+            </ul>
+        </div>
+    </div>
+{{/if}}
 </body>
 <footer style="padding-top: 30px">
     <div class="container-fluid navbar-default navbar-fixed-bottom push">

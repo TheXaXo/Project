@@ -19,6 +19,7 @@
     "serve-favicon": "~2.3.0",
     "multer": "latest",
     "express-fileupload": "latest",
-    "image-size": "latest"
+    "image-size": "latest",
+    "handlebars": "latest"
   }
 }
