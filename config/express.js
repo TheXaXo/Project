@@ -12,14 +12,6 @@ module.exports = (app, config) => {
 
     var hbs = require('hbs');
 
-    hbs.registerHelper( 'eachInMap', function ( map, block ) {
-        var out = '';
-        Object.keys( map ).map(function( prop ) {
-            out += block.fn( {key: prop, value: map[ prop ]} );
-        });
-        return out;
-    });
-
     // This set up which is the parser for the request's data.
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true}));

@@ -33,11 +33,39 @@ module.exports = {
                 pages.push(page);
             }
 
-            articlesToSearch = articlesToSearch.slice(currentPage * 3, currentPage * 3 + 3);
-            let currentUrl = req.originalUrl.split("?")[0];
+            let sortingOptions = req.query.sort;
 
-            res.render('home/articles', {articles: articlesToSearch, error: 'Search by tag: ' + tag,
-            pages: pages, pagesExist: true, currentUrl: currentUrl});
+            if (sortingOptions === 'views') {
+                articlesToSearch = articlesToSearch
+                    .sort(function (a, b) {
+                        if (a.views > b.views) return -1;
+                        if (a.views < b.views) return 1;
+                    })
+            } else if (sortingOptions === 'downloads') {
+                articlesToSearch = articlesToSearch
+                    .sort(function (a, b) {
+                        if (a.downloads > b.downloads) return -1;
+                        if (a.downloads < b.downloads) return 1;
+                    })
+            } else {
+                articlesToSearch = articlesToSearch.reverse();
+            }
+
+            articlesToSearch = articlesToSearch
+                .slice(currentPage * 3, currentPage * 3 + 3);
+
+            let currentUrl = req.originalUrl.split("?")[0];
+            let currentUrlWithSortQuery = req.originalUrl.split("?")[0] + '?sort=' + sortingOptions;
+
+            res.render('home/articles', {
+                articles: articlesToSearch,
+                error: 'Search by tag: ' + tag,
+                pages: pages,
+                pagesExist: true,
+                sortingExists: true,
+                symbol: '?',
+                currentUrl: currentUrl,
+                currentUrlWithSortQuery: currentUrlWithSortQuery});
         });
     }
 };

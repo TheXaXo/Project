@@ -35,14 +35,39 @@ module.exports = {
                     pages.push(page);
                 }
 
-                categoryArticles = categoryArticles.slice(currentPage * 3, currentPage * 3 + 3);
+                let sortingOptions = req.query.sort;
+
+                if (sortingOptions === 'views') {
+                    categoryArticles = categoryArticles
+                        .sort(function (a, b) {
+                            if (a.views > b.views) return -1;
+                            if (a.views < b.views) return 1;
+                        })
+                } else if (sortingOptions === 'downloads') {
+                    categoryArticles = categoryArticles
+                        .sort(function (a, b) {
+                            if (a.downloads > b.downloads) return -1;
+                            if (a.downloads < b.downloads) return 1;
+                        })
+                } else {
+                    categoryArticles = categoryArticles.reverse();
+                }
+
+                categoryArticles = categoryArticles
+                    .slice(currentPage * 3, currentPage * 3 + 3);
+
                 let currentUrl = req.originalUrl.split("?")[0];
+                let currentUrlWithSortQuery = req.originalUrl.split("?")[0] + '?sort=' + sortingOptions;
+
 
                 res.render('home/articles', {
                     articles: categoryArticles,
                     pages: pages,
                     pagesExist: true,
-                    currentUrl: currentUrl
+                    sortingExists: true,
+                    currentUrl: currentUrl,
+                    symbol: '?',
+                    currentUrlWithSortQuery: currentUrlWithSortQuery
                 })
             });
         });
@@ -70,11 +95,40 @@ module.exports = {
                 }
                 pages.push(page);
             }
-        });
 
-        Article.find({}).skip(currentPage * 3).limit(3).then(articles => {
-            res.render('home/articles', {articles: articles, pages: pages, pagesExist: true});
-        })
+            let sortingOptions = req.query.sort;
+
+            if (sortingOptions === 'views') {
+                articles = articles
+                    .sort(function (a, b) {
+                        if (a.views > b.views) return -1;
+                        if (a.views < b.views) return 1;
+                    })
+            } else if (sortingOptions === 'downloads') {
+                articles = articles
+                    .sort(function (a, b) {
+                        if (a.downloads > b.downloads) return -1;
+                        if (a.downloads < b.downloads) return 1;
+                    })
+            } else {
+                articles = articles.reverse();
+            }
+
+            articles = articles
+                .slice(currentPage * 3, currentPage * 3 + 3);
+
+            let currentUrl = req.originalUrl.split("?")[0];
+            let currentUrlWithSortQuery = req.originalUrl.split("?")[0] + '?sort=' + sortingOptions;
+
+            res.render('home/articles', {
+                articles: articles,
+                pages: pages,
+                pagesExist: true,
+                sortingExists: true,
+                symbol: '?',
+                currentUrl: currentUrl,
+                currentUrlWithSortQuery: currentUrlWithSortQuery});
+        });
     },
 
     search: (req, res) => {
@@ -113,12 +167,39 @@ module.exports = {
                 pages.push(page);
             }
 
-            let currentUrl = req.originalUrl.split("&")[0];
+            let sortingOptions = req.query.sort;
 
-            articlesToSearch = articlesToSearch.slice(currentPage * 3, currentPage * 3 + 3);
+            if (sortingOptions === 'views') {
+                articlesToSearch = articlesToSearch
+                    .sort(function (a, b) {
+                        if (a.views > b.views) return -1;
+                        if (a.views < b.views) return 1;
+                    })
+            } else if (sortingOptions === 'downloads') {
+                articlesToSearch = articlesToSearch
+                    .sort(function (a, b) {
+                        if (a.downloads > b.downloads) return -1;
+                        if (a.downloads < b.downloads) return 1;
+                    })
+            } else {
+                articlesToSearch = articlesToSearch.reverse();
+            }
+
+            articlesToSearch = articlesToSearch
+                .slice(currentPage * 3, currentPage * 3 + 3);
+
+            let currentUrl = req.originalUrl.split("&")[0];
+            let currentUrlWithSortQuery = req.originalUrl.split("&")[0] + '&sort=' + sortingOptions;
+
             res.render('home/articles', {
-                articles: articlesToSearch, pages: pages,
-                pagesExist: true, appendWithAnd: true, currentUrl: currentUrl, error: 'Search wallpapers: ' + tagsAsText
+                articles: articlesToSearch,
+                pages: pages,
+                pagesExist: true,
+                sortingExists: true,
+                currentUrlWithSortQuery: currentUrlWithSortQuery,
+                symbol: '&',
+                currentUrl: currentUrl,
+                error: 'Search wallpapers: ' + tagsAsText
             });
         });
     }

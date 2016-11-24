@@ -84,7 +84,7 @@ module.exports = {
                 }
 
                 let returnUrl = '/';
-                if (req.session.returnUrl){
+                if (req.session.returnUrl) {
                     returnUrl = req.session.returnUrl;
                     delete req.session.returnUrl;
                 }
@@ -100,9 +100,6 @@ module.exports = {
     },
 
     getUserPanel: (req, res) => {
-
         res.render('user/userPanel');
-
-
     }
 };

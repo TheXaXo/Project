@@ -1,48 +1,51 @@
 <form class="form-horizontal" method="get" action="/user/userPanel">
     <fieldset>
- <div class="container">
-     <div class="row">
-         <div class="col-md-2">
-        <p align="left" style="font-size:30px"> {{user.fullName}}</p>
-        Post count: <br>
-        Role: <br>
-        E-mail: <br>
-         </div>
-        <div class="col-md-3">
-        <p align="right" style="font-size:30px">Most downloaded wallpaper: </p>
-        <div class="form-group">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <p align="left" style="font-size:30px"> {{user.fullName}}</p>
+                    Post count: <br>
+                    Role: <br>
+                    E-mail: <br>
+                </div>
+                <div class="col-md-3">
+                    <p align="right" style="font-size:30px">Most downloaded wallpaper: </p>
+                    <div class="form-group">
 
-            <div class="card card-inverse" align="right">
-                <img class="card-img" src="" alt="Card image">
-                <div class="card-img-overlay">
-                    <h4 class="card-title">Wallpaper</h4>
-                    <p class="card-text"></p>
-                    <p class="card-text"><small class="text-muted">1920x1080</small></p>
+                        <div class="card card-inverse" align="right">
+                            <img class="card-img" src="" alt="Card image">
+                            <div class="card-img-overlay">
+                                <h4 class="card-title">Wallpaper</h4>
+                                <p class="card-text"></p>
+                                <p class="card-text">
+                                    <small class="text-muted">1920x1080</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <p align="right" style="font-size:30px">Most viewed wallpaper: </p>
+                    <div class="form-group">
+
+                        <div class="card card-inverse" align="right">
+                            <img class="card-img" src="" alt="Card image">
+                            <div class="card-img-overlay">
+                                <h4 class="card-title">Wallpaper</h4>
+                                <p class="card-text"></p>
+                                <p class="card-text">
+                                    <small class="text-muted">1920x1080</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            </div>
-            </div>
-         <div class="col-md-3">
-             <p align="right" style="font-size:30px">Most viewed wallpaper: </p>
-             <div class="form-group">
-
-                 <div class="card card-inverse" align="right">
-                     <img class="card-img" src="" alt="Card image">
-                     <div class="card-img-overlay">
-                         <h4 class="card-title">Wallpaper</h4>
-                         <p class="card-text"></p>
-                         <p class="card-text"><small class="text-muted">1920x1080</small></p>
-                     </div>
-                 </div>
-             </div>
-
-         </div>
-     </div>
- </div>
+        </div>
 
 
-
-<span class="col-sm-offset-10">
+        <span class="col-sm-offset-10">
         <div class="form-group">
             <label class="col-sm-4 control-label">Confirm E-mail</label>
             <div class="col-sm-4">
@@ -54,7 +57,8 @@
             <div class="col-sm-4">
                 <input type="password" class="form-control" id="Password" placeholder="Password" name="password">
 
-                <input type="password" class="form-control" id="PasswordConfirm" placeholder="Repeat password" name="passwordConfirm">
+                <input type="password" class="form-control" id="PasswordConfirm" placeholder="Repeat password"
+                       name="passwordConfirm">
             </div>
         </div>
         <div class="form-group">
