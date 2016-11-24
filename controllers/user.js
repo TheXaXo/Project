@@ -97,5 +97,12 @@ module.exports = {
     logout: (req, res) => {
         req.logOut();
         res.redirect('/');
+    },
+
+    getUserPanel: (req, res) => {
+
+        res.render('user/userPanel');
+
+
     }
 };

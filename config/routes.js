@@ -52,6 +52,8 @@ module.exports = (app) => {
 
     app.get('/user/logout', userController.logout);
 
+    app.get('/user/details', userController.getUserPanel);
+
     app.get('/tag/:name', tagController.listArticlesByTag);
 
     app.use((req, res, next) => {
