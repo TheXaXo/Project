@@ -88,5 +88,16 @@ module.exports = (app) => {
 
     app.get('/admin/category/delete/:id', adminController.category.deleteGet);
     app.post('/admin/category/delete/:id', adminController.category.deletePost);
+
+    app.get('/admin/resolution/all', adminController.resolution.all);
+
+    app.get('/admin/resolution/create', adminController.resolution.createGet);
+    app.post('/admin/resolution/create', adminController.resolution.createPost);
+
+    app.get('/admin/resolution/edit/:id', adminController.resolution.editGet);
+    app.post('/admin/resolution/edit/:id', adminController.resolution.editPost);
+
+    app.get('/admin/resolution/delete/:id', adminController.resolution.deleteGet);
+    app.post('/admin/resolution/delete/:id', adminController.resolution.deletePost);
 };
 

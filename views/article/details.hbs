@@ -10,38 +10,39 @@
         {{article.author.fullName}}
     </small>
     <body>
-    <div class="pull-right" id="downloads">
-        <br><br><br><a id="download" class="btn btn-default btn-sm" href ="/uploads/{{article.imgName}}" download="{{article.imgName}}">Download</a>
- </div>
+    <div class="pull-right">
+        <br><br><br><a id="download" class="btn btn-default btn-sm" href="/uploads/{{article.imgName}}"
+                       download="{{article.imgName}}">Download</a>
+    </div>
 
 
-        <script type="text/javascript" defer>
-            // ne barai
-            const Article = module.require('Article');
-            document.addEventListener('DOMContentLoaded', function(){
-                const el      = document.getElementById('download');
+    <script type="text/javascript" defer>
+        // ne barai
+        const Article = require('mongoose').model('Article');
+        document.addEventListener('DOMContentLoaded', function () {
+            const el = document.getElementById('download');
 
-                el.addEventListener('click', downloadCount);
+            el.addEventListener('click', downloadCount);
 
-                function downloadCount(e) {
-                    e.preventDefault();
-                    Article.downloads += 1;
-                    Article.save();
-                }
-            }, false);
-            // ne barai
-        </script>
+            function downloadCount(e) {
+                e.preventDefault();
+                Article.downloads += 1;
+                Article.save();
+            }
+        }, false);
+        // ne barai
+    </script>
 
-        <p><br>Views: {{article.views}} </p>
-        <p>Downloads: {{article.downloads}}</p>
-        <div class="pull-right">
-            <a class="btn btn-default btn-sm" href="/">&laquo; Back</a>
-            {{#if isUserAuthorized}}
-                <a class="btn btn-success btn-sm"
-                   href="/article/edit/{{article.id}}">Edit</a>
-                <a class="btn btn-danger btn-sm"
-                   href="/article/delete/{{article.id}}">Delete</a>
-            {{/if}}
-        </div>
+    <p><br>Views: {{article.views}} </p>
+    <p>Downloads: {{article.downloads}}</p>
+    <div class="pull-right">
+        <a class="btn btn-default btn-sm" onClick="history.go(-1); return true">&laquo; Back</a>
+        {{#if isUserAuthorized}}
+            <a class="btn btn-success btn-sm"
+               href="/article/edit/{{article.id}}">Edit</a>
+            <a class="btn btn-danger btn-sm"
+               href="/article/delete/{{article.id}}">Delete</a>
+        {{/if}}
+    </div>
     </body>
 </div>

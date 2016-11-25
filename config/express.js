@@ -48,12 +48,18 @@ module.exports = (app, config) => {
         if (url !== "category") {
             Category.find({}).then(categories => {
                 {
+                    for (let category of categories) {
+                        category.articlesCount = category.articles.length;
+                    }
                     app.locals.categories = categories;
                 }
             });
 
         } else {
             Category.find({}).then(categories => {
+                for (let category of categories) {
+                    category.articlesCount = category.articles.length;
+                }
                 for (let categoryToCheck of categories) {
                     Category.findById(req.params.id).then(currentCategory => {
                         if (categoryToCheck.name === currentCategory.name) {
@@ -64,6 +70,26 @@ module.exports = (app, config) => {
                 app.locals.categories = categories;
             });
         }
+        next();
+    });
+
+    app.use((req, res, next) => {
+        const Resolution = require('mongoose').model('Resolution');
+        let resolutionQuery = req.query.res;
+
+        Resolution.find({}).then(resolutions => {
+            {
+                for (let resolution of resolutions) {
+                    if (resolution.name === resolutionQuery) {
+                        resolution.isChecked = true;
+                    } else {
+                        resolution.isChecked = false;
+                    }
+                }
+                app.locals.resolutions = resolutions;
+            }
+        });
+
         next();
     });
 

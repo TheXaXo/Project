@@ -36,6 +36,7 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="/admin/user/all">Users</a></li>
                         <li><a href="/admin/category/all">Categories</a></li>
+                        <li><a href="/admin/resolution/all">Resolutions</a></li>
                     </ul>
                 </li>
             {{/if}}
@@ -77,10 +78,14 @@
             {{#each categories}}
                 {{#if this.isChecked}}
                     <a class="list-group-item" href="/category/{{this.id}}"
-                       style="color:#F2F2F2; background: slategrey">{{this.name}}</a>
+                       style="color:#F2F2F2; background: slategrey">{{this.name}}
+                        <span class="badge">{{this.articlesCount}}</span>
+                    </a>
                 {{/if}}
                 {{#unless this.isChecked}}
-                    <a class="list-group-item" href="/category/{{this.id}}">{{this.name}}</a>
+                    <a class="list-group-item" href="/category/{{this.id}}">{{this.name}}
+                        <span class="badge">{{this.articlesCount}}</span>
+                    </a>
                 {{/unless}}
             {{/each}}
         </div>
@@ -90,12 +95,18 @@
     </div>
     <div class="col-md-2" style="text-align: center">
         <div class="list-group">
-            <a class="list-group-item" href="#">1024x768</a>
-            <a class="list-group-item" href="#">1024x768</a>
-            <a class="list-group-item" href="#">1024x768</a>
-            <a class="list-group-item" href="#">1024x768</a>
-            <a class="list-group-item" href="#">1024x768</a>
-            <a class="list-group-item" href="#">1024x768</a>
+            <a class="list-group-item" style="margin-bottom: 10px" href="#">All</a>
+            {{#each resolutions}}
+                {{#if this.isChecked}}
+                    <a class="list-group-item" href="/category/{{this.id}}"
+                       style="color:#F2F2F2; background: slategrey">{{this.name}}
+                    </a>
+                {{/if}}
+                {{#unless this.isChecked}}
+                    <a class="list-group-item" href="/categories/{{this.id}}">{{this.name}}
+                    </a>
+                {{/unless}}
+            {{/each}}
         </div>
     </div>
 </div>

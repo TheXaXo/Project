@@ -18,4 +18,5 @@ module.exports = (config) => {
     require('./../models/User');
     require('./../models/Article');
     require('./../models/Category');
+    require('./../models/Resolution');
 };
