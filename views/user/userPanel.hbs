@@ -1,71 +1,57 @@
-<form class="form-horizontal" method="get" action="/user/userPanel">
-    <fieldset>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-2">
-                    <p align="left" style="font-size:30px"> {{user.fullName}}</p>
-                    Post count: <br>
-                    Role: <br>
-                    E-mail: <br>
-                </div>
-                <div class="col-md-3">
-                    <p align="right" style="font-size:30px">Most downloaded wallpaper: </p>
-                    <div class="form-group">
-
-                        <div class="card card-inverse" align="right">
-                            <img class="card-img" src="" alt="Card image">
-                            <div class="card-img-overlay">
-                                <h4 class="card-title">Wallpaper</h4>
-                                <p class="card-text"></p>
-                                <p class="card-text">
-                                    <small class="text-muted">1920x1080</small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <p align="right" style="font-size:30px">Most viewed wallpaper: </p>
-                    <div class="form-group">
-
-                        <div class="card card-inverse" align="right">
-                            <img class="card-img" src="" alt="Card image">
-                            <div class="card-img-overlay">
-                                <h4 class="card-title">Wallpaper</h4>
-                                <p class="card-text"></p>
-                                <p class="card-text">
-                                    <small class="text-muted">1920x1080</small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+<div style="padding: 20px">
+    <div class="col-md-4" style="padding: 15px">
+        <img src="/uploads/68sjat171479839894389.jpg" class="img-circle" alt="Profile picture" width="177"
+             height="177">
+    </div>
+    <div class="col-md-8">
+        <div align="left" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">User Details</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover ">
+                    <tbody>
+                    <tr>
+                        <td>Name:</td>
+                        <td>Pesho Peshov</td>
+                    </tr>
+                    <tr>
+                        <td>Birthdate:</td>
+                        <td>20/12/1956</td>
+                    </tr>
+                    <tr>
+                        <td>E-Mail:</td>
+                        <td>ju@abv.co.uk</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-
-
-        <span class="col-sm-offset-10">
-        <div class="form-group">
-            <label class="col-sm-4 control-label">Confirm E-mail</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="inputEmail" placeholder="Email" name="">
+        <div align="left">
+            <a href="#" class="btn btn-default">Edit profile</a>
+        </div>
+    </div>
+    <div class="col-md-12" style="padding:15px">
+        <div align="left" class="panel panel-primary" style="margin-bottom: 0px">
+            <div class="panel-heading">
+                <h3 class="panel-title">About me</h3>
+            </div>
+            <div class="panel-body">
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-sm-4 control-label">New password</label>
-            <div class="col-sm-4">
-                <input type="password" class="form-control" id="Password" placeholder="Password" name="password">
-
-                <input type="password" class="form-control" id="PasswordConfirm" placeholder="Repeat password"
-                       name="passwordConfirm">
-            </div>
+    </div>
+    <div class="col-md-6" style="padding-top: 15px">
+        <div class="jumbotron" style="border-radius:20px; border: 2px solid antiquewhite">
+            <h1 align="center">Saved</h1>
+            <p align="center"> See all saved wallpapers </p>
+            <p align="center"><a class="btn btn-warning btn-lg"> Saved </a></p>
         </div>
-        <div class="form-group">
-            <div class="col-sm-4 col-sm-offset-4">
-                <button type="submit" class="btn btn-success">Change password</button>
-            </div>
+    </div>
+    <div class="col-md-6" style="padding-top: 15px">
+        <div class="jumbotron" style="border-radius:20px; border: 2px solid antiquewhite">
+            <h1 align="center">Uploads</h1>
+            <p align="center"> See all uploaded wallpapers </p>
+            <p align="center"><a class="btn btn-success btn-lg">Uploads</a></p>
         </div>
-    </span>
-    </fieldset>
-</form>
+    </div>
+</div>
