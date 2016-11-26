@@ -65,10 +65,12 @@
     {{#if sortingExists}}
         <div class="btn-group">
             <a class="btn btn-default disabled">Sort wallpapers by</a>
-            <a href="{{currentUrl}}{{symbol}}sort=undefined&page=0" id="sortnew" class="btn btn-default">New</a>
-            <a href="{{currentUrl}}{{symbol}}sort=downloads&page=0" id="sortdownloads"
+            <a href="{{currentUrl}}{{symbol}}sort=undefined&page=0&res={{currentResolution}}" id="sortnew"
+               class="btn btn-default">New</a>
+            <a href="{{currentUrl}}{{symbol}}sort=downloads&page=0&res={{currentResolution}}" id="sortdownloads"
                class="btn btn-default">Downloads</a>
-            <a href="{{currentUrl}}{{symbol}}sort=views&page=0" id="sortviews" class="btn btn-default">Views</a>
+            <a href="{{currentUrl}}{{symbol}}sort=views&page=0&res={{currentResolution}}" id="sortviews"
+               class="btn btn-default">Views</a>
         </div>
     {{/if}}
 </div>
@@ -95,18 +97,46 @@
     </div>
     <div class="col-md-2" style="text-align: center">
         <div class="list-group">
-            <a class="list-group-item" style="margin-bottom: 10px" href="#">All</a>
-            {{#each resolutions}}
-                {{#if this.isChecked}}
-                    <a class="list-group-item" href="/category/{{this.id}}"
-                       style="color:#F2F2F2; background: slategrey">{{this.name}}
-                    </a>
+            {{#if onPageWithWallpapers}}
+                {{#if onAllResolutions}}
+                    <a class="list-group-item" style="margin-bottom: 10px; color:#F2F2F2; background: slategrey"
+                       href="{{currentUrl}}{{symbol}}sort={{currentSort}}&page=0&res=all">All</a>
                 {{/if}}
-                {{#unless this.isChecked}}
-                    <a class="list-group-item" href="/categories/{{this.id}}">{{this.name}}
-                    </a>
+                {{#unless onAllResolutions}}
+                    <a class="list-group-item" style="margin-bottom: 10px"
+                       href="{{currentUrl}}{{symbol}}sort={{currentSort}}&page=0&res=all">All</a>
                 {{/unless}}
-            {{/each}}
+                {{#each resolutions}}
+                    {{#if this.isChecked}}
+                        <a class="list-group-item"
+                           href="{{../currentUrl}}{{../symbol}}sort={{../currentSort}}&page=0&res={{this.name}}"
+                           style="color:#F2F2F2; background: slategrey">{{this.name}}
+                        </a>
+                    {{/if}}
+                    {{#unless this.isChecked}}
+                        <a class="list-group-item"
+                           href="{{../currentUrl}}{{../symbol}}sort={{../currentSort}}&page=0&res={{this.name}}">{{this.name}}
+                        </a>
+                    {{/unless}}
+                {{/each}}
+            {{/if}}
+            {{#unless onPageWithWallpapers}}
+                <a class="list-group-item" style="margin-bottom: 10px"
+                   href="/?res=all">All</a>
+                {{#each resolutions}}
+                    {{#if this.isChecked}}
+                        <a class="list-group-item"
+                           href="/?res={{this.name}}"
+                           style="color:#F2F2F2; background: slategrey">{{this.name}}
+                        </a>
+                    {{/if}}
+                    {{#unless this.isChecked}}
+                        <a class="list-group-item"
+                           href="/?res={{this.name}}">{{this.name}}
+                        </a>
+                    {{/unless}}
+                {{/each}}
+            {{/unless}}
         </div>
     </div>
 </div>
@@ -117,11 +147,11 @@
                 {{#each pages}}
                     <li>
                         {{#if this.isSelected}}
-                            <a href="{{../currentUrlWithSortQuery}}&page={{this.index}}"
+                            <a href="{{../currentUrl}}{{../symbol}}sort={{../currentSort}}&page={{this.index}}&res={{../currentResolution}}"
                                class="btn btn-default active">{{this.text}}</a>
                         {{/if}}
                         {{#unless this.isSelected}}
-                            <a href="{{../currentUrlWithSortQuery}}&page={{this.index}}"
+                            <a href="{{../currentUrl}}{{../symbol}}sort={{../currentSort}}&page={{this.index}}&res={{../currentResolution}}"
                                class="btn btn-default">{{this.text}}</a>
                         {{/unless}}
                     </li>

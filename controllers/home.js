@@ -7,11 +7,33 @@ module.exports = {
     listCategoryArticles: (req, res) => {
         let id = req.params.id;
 
-        let pageFromQuery = req.query.page;
-        let currentPage = 0;
+        let currentPage = req.query.page;
 
-        if (pageFromQuery) {
-            currentPage = parseInt(pageFromQuery);
+        let currentPageInt = 0;
+        if (currentPage) {
+            currentPageInt = parseInt(currentPage);
+        }
+
+        let currentUrl = req.originalUrl.split("?")[0];
+
+        let currentSort = req.query.sort;
+        if (!currentSort) {
+            currentSort = 'undefined'
+        }
+
+        let currentResolution = req.query.res;
+        if (!currentResolution) {
+            currentResolution = 'all'
+        }
+        let currentWidth = 0;
+        let currentHeight = 0;
+        if (currentResolution !== 'all') {
+            currentWidth = parseInt(currentResolution.split("x")[0]);
+            currentHeight = parseInt(currentResolution.split("x")[1]);
+        }
+        let onAllResolutions = false;
+        if (currentResolution === 'all') {
+            onAllResolutions = true;
         }
 
         Category.findById(id).populate('articles').then(category => {
@@ -22,12 +44,19 @@ module.exports = {
 
                 let categoryArticles = category.articles;
 
+                if (currentResolution !== 'all') {
+                    categoryArticles = categoryArticles.filter(function (article) {
+                        return article.width === currentWidth &&
+                            article.height === currentHeight;
+                    })
+                }
+
                 var pages = [];
                 let articlesCount = categoryArticles.length;
                 let numberOfPages = Math.ceil(articlesCount / 3);
 
                 for (var a = 1; a <= numberOfPages; a++) {
-                    if (currentPage + 1 === a) {
+                    if (currentPageInt + 1 === a) {
                         var page = {text: a, index: a - 1, isSelected: true};
                     } else {
                         var page = {text: a, index: a - 1, isSelected: false};
@@ -35,15 +64,13 @@ module.exports = {
                     pages.push(page);
                 }
 
-                let sortingOptions = req.query.sort;
-
-                if (sortingOptions === 'views') {
+                if (currentSort === 'views') {
                     categoryArticles = categoryArticles
                         .sort(function (a, b) {
                             if (a.views > b.views) return -1;
                             if (a.views < b.views) return 1;
                         })
-                } else if (sortingOptions === 'downloads') {
+                } else if (currentSort === 'downloads') {
                     categoryArticles = categoryArticles
                         .sort(function (a, b) {
                             if (a.downloads > b.downloads) return -1;
@@ -54,10 +81,7 @@ module.exports = {
                 }
 
                 categoryArticles = categoryArticles
-                    .slice(currentPage * 3, currentPage * 3 + 3);
-
-                let currentUrl = req.originalUrl.split("?")[0];
-                let currentUrlWithSortQuery = req.originalUrl.split("?")[0] + '?sort=' + sortingOptions;
+                    .slice(currentPageInt * 3, currentPageInt * 3 + 3);
 
 
                 res.render('home/articles', {
@@ -65,30 +89,63 @@ module.exports = {
                     pages: pages,
                     pagesExist: true,
                     sortingExists: true,
-                    currentUrl: currentUrl,
                     symbol: '?',
-                    currentUrlWithSortQuery: currentUrlWithSortQuery
+                    onPageWithWallpapers: true,
+                    onAllResolutions: onAllResolutions,
+
+                    currentUrl: currentUrl,
+                    currentSort: currentSort,
+                    currentPage: currentPage,
+                    currentResolution: currentResolution
                 })
             });
         });
     },
 
     index: (req, res) => {
-        let pageFromQuery = req.query.page;
+        let currentPage = req.query.page;
 
-        let currentPage = 0;
+        let currentPageInt = 0;
+        if (currentPage) {
+            currentPageInt = parseInt(currentPage);
+        }
 
-        if (pageFromQuery) {
-            currentPage = parseInt(pageFromQuery)
+        let currentUrl = req.originalUrl.split("?")[0];
+
+        let currentSort = req.query.sort;
+        if (!currentSort) {
+            currentSort = 'undefined'
+        }
+
+        let currentResolution = req.query.res;
+        if (!currentResolution) {
+            currentResolution = 'all';
+        }
+        let currentWidth = 0;
+        let currentHeight = 0;
+        if (currentResolution !== 'all') {
+            currentWidth = parseInt(currentResolution.split("x")[0]);
+            currentHeight = parseInt(currentResolution.split("x")[1]);
+        }
+        let onAllResolutions = false;
+        if (currentResolution === 'all') {
+            onAllResolutions = true;
         }
 
         var pages = [];
         Article.find({}).then(articles => {
+            if (currentResolution !== 'all') {
+                articles = articles.filter(function (article) {
+                    return article.width === currentWidth &&
+                        article.height === currentHeight;
+                })
+            }
+
             let articlesCount = articles.length;
             let numberOfPages = Math.ceil(articlesCount / 3);
 
             for (var a = 1; a <= numberOfPages; a++) {
-                if (currentPage + 1 === a) {
+                if (currentPageInt + 1 === a) {
                     var page = {text: a, index: a - 1, isSelected: true};
                 } else {
                     var page = {text: a, index: a - 1, isSelected: false};
@@ -96,15 +153,13 @@ module.exports = {
                 pages.push(page);
             }
 
-            let sortingOptions = req.query.sort;
-
-            if (sortingOptions === 'views') {
+            if (currentSort === 'views') {
                 articles = articles
                     .sort(function (a, b) {
                         if (a.views > b.views) return -1;
                         if (a.views < b.views) return 1;
                     })
-            } else if (sortingOptions === 'downloads') {
+            } else if (currentSort === 'downloads') {
                 articles = articles
                     .sort(function (a, b) {
                         if (a.downloads > b.downloads) return -1;
@@ -115,10 +170,8 @@ module.exports = {
             }
 
             articles = articles
-                .slice(currentPage * 3, currentPage * 3 + 3);
+                .slice(currentPageInt * 3, currentPageInt * 3 + 3);
 
-            let currentUrl = req.originalUrl.split("?")[0];
-            let currentUrlWithSortQuery = req.originalUrl.split("?")[0] + '?sort=' + sortingOptions;
 
             res.render('home/articles', {
                 articles: articles,
@@ -126,8 +179,14 @@ module.exports = {
                 pagesExist: true,
                 sortingExists: true,
                 symbol: '?',
-                currentUrl: currentUrl,
-                currentUrlWithSortQuery: currentUrlWithSortQuery});
+                onPageWithWallpapers: true,
+                onAllResolutions: onAllResolutions,
+
+                currentPage: currentPage,
+                currentSort: currentSort,
+                currentResolution: currentResolution,
+                currentUrl: currentUrl
+            });
         });
     },
 
@@ -137,11 +196,33 @@ module.exports = {
 
         let articlesToSearch = [];
 
-        let pageFromQuery = req.query.page;
-        let currentPage = 0;
+        let currentPage = req.query.page;
 
-        if (pageFromQuery) {
-            currentPage = parseInt(pageFromQuery);
+        let currentPageInt = 0;
+        if (currentPage) {
+            currentPageInt = parseInt(currentPage);
+        }
+
+        let currentUrl = req.originalUrl.split("&")[0];
+
+        let currentSort = req.query.sort;
+        if (!currentSort) {
+            currentSort = 'undefined'
+        }
+
+        let currentResolution = req.query.res;
+        if (!currentResolution) {
+            currentResolution = 'all';
+        }
+        let currentWidth = 0;
+        let currentHeight = 0;
+        if (currentResolution !== 'all') {
+            currentWidth = parseInt(currentResolution.split("x")[0]);
+            currentHeight = parseInt(currentResolution.split("x")[1]);
+        }
+        let onAllResolutions = false;
+        if (currentResolution === 'all') {
+            onAllResolutions = true;
         }
 
         Article.find({}).populate('author').then(articles => {
@@ -154,12 +235,19 @@ module.exports = {
                 }
             }
 
+            if (currentResolution !== 'all') {
+                articles = articles.filter(function (article) {
+                    return article.width === currentWidth &&
+                        article.height === currentHeight;
+                })
+            }
+
             var pages = [];
             let articlesCount = articlesToSearch.length;
             let numberOfPages = Math.ceil(articlesCount / 3);
 
             for (var a = 1; a <= numberOfPages; a++) {
-                if (currentPage + 1 === a) {
+                if (currentPageInt + 1 === a) {
                     var page = {text: a, index: a - 1, isSelected: true};
                 } else {
                     var page = {text: a, index: a - 1, isSelected: false};
@@ -167,15 +255,13 @@ module.exports = {
                 pages.push(page);
             }
 
-            let sortingOptions = req.query.sort;
-
-            if (sortingOptions === 'views') {
+            if (currentSort === 'views') {
                 articlesToSearch = articlesToSearch
                     .sort(function (a, b) {
                         if (a.views > b.views) return -1;
                         if (a.views < b.views) return 1;
                     })
-            } else if (sortingOptions === 'downloads') {
+            } else if (currentSort === 'downloads') {
                 articlesToSearch = articlesToSearch
                     .sort(function (a, b) {
                         if (a.downloads > b.downloads) return -1;
@@ -186,20 +272,22 @@ module.exports = {
             }
 
             articlesToSearch = articlesToSearch
-                .slice(currentPage * 3, currentPage * 3 + 3);
-
-            let currentUrl = req.originalUrl.split("&")[0];
-            let currentUrlWithSortQuery = req.originalUrl.split("&")[0] + '&sort=' + sortingOptions;
+                .slice(currentPageInt * 3, currentPageInt * 3 + 3);
 
             res.render('home/articles', {
                 articles: articlesToSearch,
                 pages: pages,
                 pagesExist: true,
                 sortingExists: true,
-                currentUrlWithSortQuery: currentUrlWithSortQuery,
                 symbol: '&',
-                currentUrl: currentUrl,
-                error: 'Search wallpapers: ' + tagsAsText
+                error: 'Search wallpapers: ' + tagsAsText,
+                onPageWithWallpapers: true,
+                onAllResolutions: onAllResolutions,
+
+                currentPage: currentPage,
+                currentSort: currentSort,
+                currentResolution: currentResolution,
+                currentUrl: currentUrl
             });
         });
     }

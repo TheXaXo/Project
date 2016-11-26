@@ -89,7 +89,6 @@ module.exports = (app, config) => {
                 app.locals.resolutions = resolutions;
             }
         });
-
         next();
     });
 
