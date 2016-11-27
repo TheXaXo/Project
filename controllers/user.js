@@ -29,6 +29,10 @@ module.exports = {
                     email: registerArgs.email,
                     passwordHash: passwordHash,
                     fullName: registerArgs.fullName,
+                    birthdate: registerArgs.birthdate,
+                    nickname: registerArgs.nickname,
+                    avatar: 'default.png',
+                    location: registerArgs.location,
                     salt: salt
                 };
 
@@ -100,6 +104,12 @@ module.exports = {
     },
 
     getUserPanel: (req, res) => {
-        res.render('user/userPanel');
+        User.findOne({nickname: req.params.nickname}).then(user => {
+            if (user) {
+                res.render('user/userPanel', {user: user});
+            } else {
+                res.redirect('/')
+            }
+        })
     }
 };

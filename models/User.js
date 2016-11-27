@@ -7,6 +7,11 @@ let userSchema = mongoose.Schema(
         email: {type: String, required: true, unique: true},
         passwordHash: {type: String, required: true},
         fullName: {type: String, required: true},
+        nickname: {type: String, required: true},
+        location: {type: String, required: false},
+        aboutme: {type: String, required: false},
+        avatar: {type: String},
+        birthdate: {type: Date, required: true},
         articles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Article'}],
         roles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Role'}],
         salt: {type: String, required: true}

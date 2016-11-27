@@ -36,6 +36,7 @@ module.exports = (app, config) => {
             let fullName = req.user.fullName;
             let firstName = fullName.split(" ")[0];
             app.locals.firstName = firstName;
+            app.locals.currentUser = req.user;
         } else {
             next();
         }

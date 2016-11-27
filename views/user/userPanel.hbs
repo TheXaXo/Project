@@ -1,10 +1,11 @@
-<div style="padding: 20px">
-    <div class="col-md-4" style="padding: 15px">
-        <img src="/uploads/68sjat171479839894389.jpg" class="img-circle" alt="Profile picture" width="177"
+<div style="padding: 10px">
+    <div class="col-md-4" style="padding: 15px; text-align: center">
+        <img src="/avatars/{{user.avatar}}" class="img-circle" alt="Profile picture" width="177"
              height="177">
+        <h2>{{user.nickname}}</h2>
     </div>
-    <div class="col-md-8">
-        <div align="left" class="panel panel-primary">
+    <div class="col-md-8" style="padding: 15px; padding-bottom: 0px">
+        <div align="left" class="panel panel-primary" style="margin-bottom: 15px">
             <div class="panel-heading">
                 <h3 class="panel-title">User Details</h3>
             </div>
@@ -12,23 +13,28 @@
                 <table class="table table-striped table-hover ">
                     <tbody>
                     <tr>
-                        <td>Name:</td>
-                        <td>Pesho Peshov</td>
+                        <td>Name</td>
+                        <td>{{user.fullName}}</td>
                     </tr>
                     <tr>
-                        <td>Birthdate:</td>
-                        <td>20/12/1956</td>
+                        <td>Birthdate</td>
+                        <td>{{user.birthdate}}</td>
                     </tr>
                     <tr>
-                        <td>E-Mail:</td>
-                        <td>ju@abv.co.uk</td>
+                        <td>Location</td>
+                        <td>{{user.location}}</td>
+                    </tr>
+                    <tr>
+                        <td>Uploads</td>
+                        <td>{{user.articles.length}}</td>
+                    </tr>
+                    <tr>
+                        <td>E-Mail</td>
+                        <td>{{user.email}}</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div align="left">
-            <a href="#" class="btn btn-default">Edit profile</a>
         </div>
     </div>
     <div class="col-md-12" style="padding:15px">
@@ -40,18 +46,25 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6" style="padding-top: 15px">
-        <div class="jumbotron" style="border-radius:20px; border: 2px solid antiquewhite">
-            <h1 align="center">Saved</h1>
-            <p align="center"> See all saved wallpapers </p>
-            <p align="center"><a class="btn btn-warning btn-lg"> Saved </a></p>
+    <div class="col-md-3" style="padding-top: 15px">
+        <div style="border-radius:20px; border: 3px solid slategrey">
+            <h2 align="center">Edit Profile</h2>
+            <p align="center">Edit your profile</p>
+            <p align="center"><a class="btn btn-danger btn-md">Edit Profile</a></p>
         </div>
     </div>
-    <div class="col-md-6" style="padding-top: 15px">
-        <div class="jumbotron" style="border-radius:20px; border: 2px solid antiquewhite">
-            <h1 align="center">Uploads</h1>
+    <div class="col-md-3" style="padding-top: 15px">
+        <div style="border-radius:20px; border: 3px solid slategrey">
+            <h2 align="center">Uploads</h2>
             <p align="center"> See all uploaded wallpapers </p>
-            <p align="center"><a class="btn btn-success btn-lg">Uploads</a></p>
+            <p align="center"><a class="btn btn-success btn-md">Uploads</a></p>
+        </div>
+    </div>
+    <div class="col-md-3" style="padding-top: 15px">
+        <div style="border-radius:20px; border: 3px solid slategrey">
+            <h2 align="center">Saved</h2>
+            <p align="center"> See all saved wallpapers </p>
+            <p align="center"><a class="btn btn-warning btn-md">Saved</a></p>
         </div>
     </div>
 </div>
