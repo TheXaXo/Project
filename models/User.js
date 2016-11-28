@@ -9,7 +9,7 @@ let userSchema = mongoose.Schema(
         fullName: {type: String, required: true},
         nickname: {type: String, required: true},
         location: {type: String, required: false},
-        aboutme: {type: String, required: false},
+        aboutme: {type: String, required: false, default: 'No information'},
         avatar: {type: String},
         birthdate: {type: Date, required: true},
         articles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Article'}],

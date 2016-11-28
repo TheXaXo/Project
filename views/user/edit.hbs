@@ -1,20 +1,17 @@
 <form class="form-horizontal"
-      action="/admin/user/edit/{{user.id}}" method="post">
+      action="/user/edit/{{user.nickname}}" method="post" enctype="multipart/form-data">
     <fieldset>
-        <legend>Edit User - {{ user.fullName }}</legend>
+        <legend>Edit your profile</legend>
         <div class="form-group">
-            <label class="col-sm-4 control-label" for="inputNickname">Nickname</label>
-            <div class="col-sm-4 ">
-                <input type="text" class="form-control" id="inputNickname" placeholder="Nickname" name="nickname" required
-                       value={{user.nickname}}>
+            <label class="control-label col-sm-4">Picture</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="file" name="photo">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-4 control-label"
-                   for="email">Email</label>
-            <div class="col-sm-4 ">
-                <input class="form-control" id="email"
-                       value="{{ user.email }}" name="email" required type="text">
+            <label class="col-sm-4 control-label">About me</label>
+            <div class="col-sm-4">
+                <textarea class="form-control" rows="6" name="aboutme">{{user.aboutme}}</textarea>
             </div>
         </div>
         <div class="form-group">
@@ -25,6 +22,19 @@
                        id="fullName" value="{{ user.fullName }}" name="fullName" required>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label" for="inputLocation">Location</label>
+            <div class="col-sm-4 ">
+                <input type="text" class="form-control" id="inputLocation" placeholder="Location" name="location" value={{user.location}}>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label" for="inputDate">Birthdate</label>
+            <div class="col-sm-4 ">
+                <input type="date" class="form-control" id="inputDate" placeholder="Birthdate" name="birthdate" required value={{user.birthdate}}>
+            </div>
+        </div>
+        <br>
         <div class="form-group">
             <label class="col-sm-4 control-label"
                    for="password">Password</label>
@@ -40,15 +50,6 @@
                        id="confirmedPassword" placeholder="Password"
                        name="confirmedPassword">
             </div>
-        </div>
-        <div class="form-group">
-            {{#each roles}}
-                <div class="col-sm-4 col-sm-offset-4">
-                    <input type="checkbox" name="roles"
-                           value="{{ this.name }}" {{#if this.isChecked}} checked {{/if}}/>
-                    {{this.name}}
-                </div>
-            {{/each}}
         </div>
         <div class="form-group">
             <div class="col-sm-4 col-sm-offset-4">

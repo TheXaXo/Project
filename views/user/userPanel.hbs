@@ -1,8 +1,8 @@
 <div style="padding: 10px">
     <div class="col-md-4" style="padding: 15px; text-align: center">
-        <img src="/avatars/{{user.avatar}}" class="img-circle" alt="Profile picture" width="177"
-             height="177">
-        <h2>{{user.nickname}}</h2>
+        <img src="/uploads/{{userProfile.avatar}}" class="img-circle" alt="Profile picture" width="180"
+             height="180">
+        <h2>{{userProfile.nickname}}</h2>
     </div>
     <div class="col-md-8" style="padding: 15px; padding-bottom: 0px">
         <div align="left" class="panel panel-primary" style="margin-bottom: 15px">
@@ -14,24 +14,26 @@
                     <tbody>
                     <tr>
                         <td>Name</td>
-                        <td>{{user.fullName}}</td>
-                    </tr>
-                    <tr>
-                        <td>Birthdate</td>
-                        <td>{{user.birthdate}}</td>
+                        <td>{{userProfile.fullName}}</td>
                     </tr>
                     <tr>
                         <td>Location</td>
-                        <td>{{user.location}}</td>
+                        <td>{{userProfile.location}}</td>
                     </tr>
                     <tr>
                         <td>Uploads</td>
-                        <td>{{user.articles.length}}</td>
+                        <td>{{userProfile.articles.length}}</td>
                     </tr>
-                    <tr>
-                        <td>E-Mail</td>
-                        <td>{{user.email}}</td>
-                    </tr>
+                    {{#if ownsProfile}}
+                        <tr>
+                            <td>Birthdate</td>
+                            <td>{{userProfile.birthdate}}</td>
+                        </tr>
+                        <tr>
+                            <td>E-Mail</td>
+                            <td>{{userProfile.email}}</td>
+                        </tr>
+                    {{/if}}
                     </tbody>
                 </table>
             </div>
@@ -43,28 +45,31 @@
                 <h3 class="panel-title">About me</h3>
             </div>
             <div class="panel-body">
+                {{userProfile.aboutme}}
             </div>
         </div>
     </div>
     <div class="col-md-3" style="padding-top: 15px">
-        <div style="border-radius:20px; border: 3px solid slategrey">
-            <h2 align="center">Edit Profile</h2>
-            <p align="center">Edit your profile</p>
-            <p align="center"><a class="btn btn-danger btn-md">Edit Profile</a></p>
-        </div>
-    </div>
-    <div class="col-md-3" style="padding-top: 15px">
-        <div style="border-radius:20px; border: 3px solid slategrey">
+        <div>
             <h2 align="center">Uploads</h2>
             <p align="center"> See all uploaded wallpapers </p>
             <p align="center"><a class="btn btn-success btn-md">Uploads</a></p>
         </div>
     </div>
-    <div class="col-md-3" style="padding-top: 15px">
-        <div style="border-radius:20px; border: 3px solid slategrey">
-            <h2 align="center">Saved</h2>
-            <p align="center"> See all saved wallpapers </p>
-            <p align="center"><a class="btn btn-warning btn-md">Saved</a></p>
+    {{#if ownsProfile}}
+        <div class="col-md-3" style="padding-top: 15px">
+            <div>
+                <h2 align="center">Saved</h2>
+                <p align="center">See all saved wallpapers</p>
+                <p align="center"><a class="btn btn-warning btn-md">Saved</a></p>
+            </div>
         </div>
-    </div>
+        <div class="col-md-3" style="padding-top: 15px">
+            <div>
+                <h2 align="center">Edit Profile</h2>
+                <p align="center">Edit your profile</p>
+                <p align="center"><a class="btn btn-danger btn-md" href="/user/edit/{{user.nickname}}">Edit Profile</a></p>
+            </div>
+        </div>
+    {{/if}}
 </div>

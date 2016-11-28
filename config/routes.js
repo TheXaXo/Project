@@ -52,6 +52,9 @@ module.exports = (app) => {
 
     app.get('/user/logout', userController.logout);
 
+    app.get('/user/edit/:nickname', userController.editGet);
+    app.post('/user/edit/:nickname', upload.single('photo'), userController.editPost);
+
     app.get('/user/details/:nickname', userController.getUserPanel);
 
     app.get('/tag/:name', tagController.listArticlesByTag);

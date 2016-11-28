@@ -42,9 +42,9 @@ module.exports = {
             }
 
             if (currentResolution !== 'all') {
-                articles = articles.filter(function (article) {
-                    return article.width === currentWidth &&
-                        article.height === currentHeight;
+                articlesToSearch = articlesToSearch.filter(function (article) {
+                    return articlesToSearch.width === currentWidth &&
+                        articlesToSearch.height === currentHeight;
                 })
             }
 

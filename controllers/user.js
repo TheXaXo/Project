@@ -10,10 +10,17 @@ module.exports = {
     registerPost: (req, res) => {
         let registerArgs = req.body;
 
-        User.findOne({email: registerArgs.email}).then(user => {
-            let errorMsg = '';
+        let errorMsg = '';
+
+        User.findOne({nickname: registerArgs.nickname}).then(user => {
             if (user) {
-                errorMsg = 'User with the same username exists!';
+                errorMsg = 'User with the same nickname exists!';
+            }
+        });
+
+        User.findOne({email: registerArgs.email}).then(user => {
+            if (user) {
+                errorMsg = 'User with the same email exists!';
             } else if (registerArgs.password !== registerArgs.repeatedPassword) {
                 errorMsg = 'Passwords do not match!'
             }
@@ -104,12 +111,97 @@ module.exports = {
     },
 
     getUserPanel: (req, res) => {
-        User.findOne({nickname: req.params.nickname}).then(user => {
-            if (user) {
-                res.render('user/userPanel', {user: user});
+        User.findOne({nickname: req.params.nickname}).then(userProfile => {
+            if (userProfile) {
+                let ownsProfile = false;
+                if (req.user && req.user.nickname === userProfile.nickname) {
+                    ownsProfile = true;
+                }
+                res.render('user/userPanel', {userProfile: userProfile, ownsProfile: ownsProfile});
             } else {
                 res.redirect('/')
             }
         })
+    },
+
+    editGet: (req, res) => {
+
+        let user = req.user;
+
+        if (!user) {
+            res.redirect('/');
+            return;
+        }
+
+        let id = req.user.id;
+        let profileNickname = req.params.nickname;
+
+        if (user.nickname === profileNickname) {
+            User.findById(id).then(user => {
+                if (user) {
+                    res.render('user/edit', {user: user});
+                }
+            })
+
+        } else {
+            res.redirect('/');
+        }
+    },
+
+    editPost: (req, res) => {
+        let editArgs = req.body;
+        let user = req.user;
+
+        if (!user) {
+            res.redirect('/');
+            return;
+        }
+
+        let id = user.id;
+        let profileNickname = req.params.nickname;
+        let errorMsg = '';
+
+        if (user.nickname === profileNickname) {
+            User.findById(id).then(user => {
+                if (!editArgs.fullName) {
+                    errorMsg = 'Name cannot be null!';
+                } else if (editArgs.password !== editArgs.confirmedPassword) {
+                    errorMsg = 'Passwords do not match!';
+                }
+
+                if (errorMsg){
+                    res.render('user/edit', {error: errorMsg});
+                    return;
+                }
+
+                if (req.file) {
+                    user.avatar = req.file.filename;
+                }
+                user.aboutme = req.body.aboutme;
+                user.fullName = req.body.fullName;
+                user.birthdate = req.body.birthdate;
+                user.location = req.body.location;
+
+                let passwordHash = user.passwordHash;
+                if (editArgs.password) {
+                    passwordHash = encryption.hashPassword(editArgs.password, user.salt);
+                }
+
+                user.passwordHash = passwordHash;
+
+                user.save((err) => {
+                    if (err) {
+                        res.redirect('/');
+                    } else {
+                        res.redirect('/user/details/' + user.nickname);
+                    }
+                })
+            })
+
+        } else {
+            res.redirect('/');
+        }
+
+
     }
 };

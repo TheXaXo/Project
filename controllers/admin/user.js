@@ -35,11 +35,17 @@ module.exports = {
     editPost: (req, res) => {
         let id = req.params.id;
         let userArgs = req.body;
+        let errorMsg = '';
+
+        User.findOne({nickname: userArgs.nickname}).then(userNickname => {
+            if (userNickname) {
+                errorMsg = 'User with the same nickname exists!';
+            }
+        });
 
         User.findOne({email: userArgs.email, _id: {$ne: id}}).then(user => {
-            let errorMsg = '';
             if (user) {
-                errorMsg = 'User with the same name exists!';
+                errorMsg = 'User with the same email exists!';
             } else if (!userArgs.email) {
                 errorMsg = 'Email cannot be null';
             } else if (!userArgs.fullName) {
@@ -70,6 +76,7 @@ module.exports = {
 
                         user.passwordHash = passwordHash;
                         user.roles = newRoles;
+                        user.nickname = userArgs.nickname;
 
                         user.save((err) => {
                             if (err) {
@@ -97,6 +104,6 @@ module.exports = {
         User.findOneAndRemove({_id: id}).then(user => {
             user.prepareDelete();
         });
-        res.redirect('admin/user/all');
+        res.redirect('/admin/user/all');
     }
 };
