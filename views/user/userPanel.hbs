@@ -52,8 +52,8 @@
     <div class="col-md-3" style="padding-top: 15px">
         <div>
             <h2 align="center">Uploads</h2>
-            <p align="center"> See all uploaded wallpapers </p>
-            <p align="center"><a class="btn btn-success btn-md">Uploads</a></p>
+            <p align="center">See all uploaded wallpapers</p>
+            <p align="center"><a class="btn btn-success btn-md" href="/user/uploads/{{userProfile.nickname}}">Uploads</a></p>
         </div>
     </div>
     {{#if ownsProfile}}
@@ -61,14 +61,14 @@
             <div>
                 <h2 align="center">Saved</h2>
                 <p align="center">See all saved wallpapers</p>
-                <p align="center"><a class="btn btn-warning btn-md">Saved</a></p>
+                <p align="center"><a class="btn btn-warning btn-md" href="/user/saved/{{userProfile.nickname}}">Saved</a></p>
             </div>
         </div>
         <div class="col-md-3" style="padding-top: 15px">
             <div>
                 <h2 align="center">Edit Profile</h2>
                 <p align="center">Edit your profile</p>
-                <p align="center"><a class="btn btn-danger btn-md" href="/user/edit/{{user.nickname}}">Edit Profile</a></p>
+                <p align="center"><a class="btn btn-danger btn-md" href="/user/edit/{{userProfile.nickname}}">Edit Profile</a></p>
             </div>
         </div>
     {{/if}}

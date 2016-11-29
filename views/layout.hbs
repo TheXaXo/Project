@@ -41,13 +41,13 @@
                         </ul>
                     </li>
                 {{/if}}
-                {{#if user}}
-                    <li><a href="/user/details/{{user.nickname}}">Welcome, {{firstName}}</a></li>
+                {{#if loggedUser}}
+                    <li><a href="/user/details/{{loggedUser.nickname}}">Welcome, {{firstName}}</a></li>
                     <li><a href="/article/create">Upload</a></li>
                     <li><a href="/user/logout">Logout</a></li>
                 </ul>
                 {{/if}}
-                {{#unless user}}
+                {{#unless loggedUser}}
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/user/register">Register</a></li>
                         <li><a href="/user/login">Login</a></li>

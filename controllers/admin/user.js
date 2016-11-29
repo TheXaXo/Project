@@ -64,6 +64,7 @@ module.exports = {
                             }
                         }
                         res.render('admin/user/edit', {user: user, roles: roles, error: errorMsg});
+                        return;
                     })
                 })
 

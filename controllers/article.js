@@ -1,6 +1,7 @@
 const size = require('image-size');
 const Article = require('mongoose').model('Article');
 const Category = require('mongoose').model('Category');
+const User = require('mongoose').model('User');
 
 module.exports = {
     createGet: (req, res) => {
@@ -59,6 +60,11 @@ module.exports = {
         let id = req.params.id;
 
         Article.findById(id).populate('author').then(article => {
+            if(!article){
+                res.redirect('/');
+                return;
+            }
+
             article.views += 1;
             article.save();
 
@@ -67,10 +73,14 @@ module.exports = {
                 return;
             }
 
+            let isSaved = false;
+            if (req.user.savedArticles.indexOf(id) !== -1) {
+                isSaved = true;
+            }
             req.user.isInRole('Admin').then(isAdmin => {
                 let isUserAuthorized = isAdmin || req.user.isAuthor(article);
 
-                res.render('article/details', {article: article, isUserAuthorized: isUserAuthorized});
+                res.render('article/details', {article: article, isUserAuthorized: isUserAuthorized, isSaved: isSaved});
             })
         })
     },
@@ -149,7 +159,7 @@ module.exports = {
                     }
 
                     Category.findById(article.category).then(category => {
-                        if (category.articles.indexOf(article.id ) === -1) {
+                        if (category.articles.indexOf(article.id) === -1) {
                             category.articles.push(article.id);
                             category.save();
                         }
@@ -187,7 +197,6 @@ module.exports = {
 
     deletePost: (req, res) => {
         let id = req.params.id;
-
         if (!req.isAuthenticated()) {
             let returnUrl = `/article/edit/${id}`;
             req.session.returnUrl = returnUrl;
@@ -196,15 +205,51 @@ module.exports = {
             return;
         }
 
-        req.user.isInRole('Admin').then(isAdmin => {
-            if (!isAdmin && !req.user.isAuthor(article)) {
+        Article.findById(id).then(article => {
+            if (!article){
                 res.redirect('/');
-            } else {
-                Article.findOneAndRemove({_id: id}).populate('author').then(article => {
-                    article.prepareDelete();
-                    res.redirect('/');
-                })
+                return;
             }
+            req.user.isInRole('Admin').then(isAdmin => {
+                if (!isAdmin && !req.user.isAuthor(article)) {
+                    res.redirect('/');
+                } else {
+                    Article.findOneAndRemove({_id: id}).populate('author').then(article => {
+                        article.prepareDelete();
+                        res.redirect('/');
+                    })
+                }
+            })
+        })
+    },
+
+    saveArticle: (req, res) => {
+        let user = req.user;
+        let id = req.params.id;
+
+        if (!user) {
+            res.redirect('/user/login');
+            return;
+        }
+
+        Article.findById(id).then(article => {
+            if (!article) {
+                res.redirect('/');
+                return;
+            }
+            User.findById(user.id).then(currentUser=> {
+                if (!currentUser) {
+                    res.redirect('/user/login');
+                    return;
+                }
+                if (currentUser.savedArticles.indexOf(article.id) === -1) {
+                    currentUser.savedArticles.push(article.id);
+                } else {
+                    currentUser.savedArticles.remove(article.id);
+                }
+                currentUser.save();
+                res.redirect('/article/details/' + article.id);
+            })
         })
     }
 };

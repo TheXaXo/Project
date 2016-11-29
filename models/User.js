@@ -13,6 +13,7 @@ let userSchema = mongoose.Schema(
         avatar: {type: String},
         birthdate: {type: Date, required: true},
         articles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Article'}],
+        savedArticles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Article'}],
         roles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Role'}],
         salt: {type: String, required: true}
     }

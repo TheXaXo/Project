@@ -38,6 +38,15 @@ articleSchema.method({
             }
         });
 
+        User.find({}).then(users => {
+            for (let user of users){
+                if(user.savedArticles.indexOf(this.id) !== -1){
+                    user.savedArticles.remove(this.id);
+                    user.save();
+                }
+            }
+        });
+
         let Category = mongoose.model('Category');
         Category.findById(this.category).then(category => {
             if (category) {

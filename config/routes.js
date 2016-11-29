@@ -44,6 +44,8 @@ module.exports = (app) => {
     app.get('/article/delete/:id', articleController.deleteGet);
     app.post('/article/delete/:id', articleController.deletePost);
 
+    app.get('/article/save/:id', articleController.saveArticle);
+
     app.get('/user/register', userController.registerGet);
     app.post('/user/register', userController.registerPost);
 
@@ -55,7 +57,11 @@ module.exports = (app) => {
     app.get('/user/edit/:nickname', userController.editGet);
     app.post('/user/edit/:nickname', upload.single('photo'), userController.editPost);
 
+    app.get('/user/uploads/:nickname', userController.uploads);
+
     app.get('/user/details/:nickname', userController.getUserPanel);
+
+    app.get('/user/saved/:nickname', userController.displaySaved);
 
     app.get('/tag/:name', tagController.listArticlesByTag);
 

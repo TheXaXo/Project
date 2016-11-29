@@ -28,7 +28,7 @@ module.exports = (app, config) => {
 
     app.use((req, res, next) => {
         if (req.user) {
-            res.locals.user = req.user;
+            res.locals.loggedUser = req.user;
             let fullName = req.user.fullName;
             let firstName = fullName.split(" ")[0];
             app.locals.firstName = firstName;
