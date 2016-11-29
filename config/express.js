@@ -29,14 +29,13 @@ module.exports = (app, config) => {
     app.use((req, res, next) => {
         if (req.user) {
             res.locals.user = req.user;
+            let fullName = req.user.fullName;
+            let firstName = fullName.split(" ")[0];
+            app.locals.firstName = firstName;
             req.user.isInRole('Admin').then(isAdmin => {
                 res.locals.isAdmin = isAdmin;
                 next();
             });
-            let fullName = req.user.fullName;
-            let firstName = fullName.split(" ")[0];
-            app.locals.firstName = firstName;
-            app.locals.currentUser = req.user;
         } else {
             next();
         }

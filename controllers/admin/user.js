@@ -19,14 +19,17 @@ module.exports = {
     editGet: (req, res) => {
         let id = req.params.id;
 
-        User.findById(id).then(user => {
+        User.findOne({_id: id}).then(user => {
+            if (!user) {
+                res.redirect("/");
+                return;
+            }
             Role.find({}).then(roles => {
                 for (let role of roles) {
                     if (user.roles.indexOf(role.id) !== -1) {
                         role.isChecked = true;
                     }
                 }
-
                 res.render('admin/user/edit', {user: user, roles: roles})
             })
         })
@@ -37,7 +40,7 @@ module.exports = {
         let userArgs = req.body;
         let errorMsg = '';
 
-        User.findOne({nickname: userArgs.nickname}).then(userNickname => {
+        User.findOne({nickname: userArgs.nickname, _id: {$ne: id}}).then(userNickname => {
             if (userNickname) {
                 errorMsg = 'User with the same nickname exists!';
             }
@@ -48,15 +51,22 @@ module.exports = {
                 errorMsg = 'User with the same email exists!';
             } else if (!userArgs.email) {
                 errorMsg = 'Email cannot be null';
-            } else if (!userArgs.fullName) {
-                errorMsg = 'Name cannot be null!';
             } else if (userArgs.password !== userArgs.confirmedPassword) {
                 errorMsg = 'Passwords do not match!';
             }
 
             if (errorMsg) {
-                userArgs.error = errorMsg;
-                res.render('admin/user/edit', userArgs);
+                User.findOne({_id: id}).then(user => {
+                    Role.find({}).then(roles => {
+                        for (let role of roles) {
+                            if (user.roles.indexOf(role.id) !== -1) {
+                                role.isChecked = true;
+                            }
+                        }
+                        res.render('admin/user/edit', {user: user, roles: roles, error: errorMsg});
+                    })
+                })
+
             } else {
                 Role.find({}).then(roles => {
                     let newRoles = roles.filter(role => {
@@ -67,7 +77,6 @@ module.exports = {
 
                     User.findOne({_id: id}).then(user => {
                         user.email = userArgs.email;
-                        user.fullName = userArgs.fullName;
 
                         let passwordHash = user.passwordHash;
                         if (userArgs.password) {
