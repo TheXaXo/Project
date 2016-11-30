@@ -67,7 +67,6 @@ module.exports = {
                         return;
                     })
                 })
-
             } else {
                 Role.find({}).then(roles => {
                     let newRoles = roles.filter(role => {

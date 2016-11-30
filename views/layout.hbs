@@ -26,13 +26,20 @@
                     <div class="navbar-form" role="search">
                         <input id="searchBar" value="" type="text" class="form-control" placeholder="Search"
                                name="tags">
-                        <a id="button" href="" type="submit" class="btn btn-default">Search</a>
+                        <a id="button" href="" type="submit" class="btn btn-default">
+                            <span>
+                                <img src="/icons/search.svg">
+                            </span>Search
+                        </a>
                     </div>
                 </li>
                 {{#if isAdmin}}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                           role="button" aria-expanded="false">Admin<span
+                           role="button" aria-expanded="false">
+                            <span>
+                                <img src="/icons/admin.svg">
+                            </span>Admin<span
                                 class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="/admin/user/all">Users</a></li>
@@ -42,15 +49,45 @@
                     </li>
                 {{/if}}
                 {{#if loggedUser}}
-                    <li><a href="/user/details/{{loggedUser.nickname}}">Welcome, {{firstName}}</a></li>
-                    <li><a href="/article/create">Upload</a></li>
-                    <li><a href="/user/logout">Logout</a></li>
+                    <li>
+                        <a href="/user/details/{{loggedUser.nickname}}">
+                            <span>
+                                <img src="/icons/user.svg">
+                            </span>Welcome, {{firstName}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/article/create">
+                            <span>
+                                <img src="/icons/upload.svg">
+                            </span>Upload
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/user/logout">
+                            <span>
+                                <img src="/icons/logout.svg">
+                            </span>Logout
+                        </a>
+                    </li>
                 </ul>
                 {{/if}}
                 {{#unless loggedUser}}
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/user/register">Register</a></li>
-                        <li><a href="/user/login">Login</a></li>
+                        <li>
+                            <a href="/user/register">
+                                <span>
+                                <img src="/icons/register.svg">
+                                </span>Register
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/user/login">
+                                <span>
+                                <img src="/icons/login.svg">
+                                </span>Login
+                            </a>
+                        </li>
                     </ul>
                 {{/unless}}
             </div>

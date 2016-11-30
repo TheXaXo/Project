@@ -30,7 +30,7 @@ module.exports = (app, config) => {
         if (req.user) {
             res.locals.loggedUser = req.user;
             let fullName = req.user.fullName;
-            let firstName = fullName.split(" ")[0];
+            let firstName = fullName.split(' ')[0];
             app.locals.firstName = firstName;
             req.user.isInRole('Admin').then(isAdmin => {
                 res.locals.isAdmin = isAdmin;
@@ -42,10 +42,10 @@ module.exports = (app, config) => {
     });
 
     app.use((req, res, next) => {
-        let url = req.url.split("/")[1];
+        let url = req.url.split('/')[1];
         const Category = require('mongoose').model('Category');
 
-        if (url !== "category") {
+        if (url !== 'category') {
             Category.find({}).then(categories => {
                 {
                     for (let category of categories) {

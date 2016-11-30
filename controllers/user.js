@@ -312,7 +312,7 @@ module.exports = {
     displaySaved: (req, res) => {
         let nickname = req.params.nickname;
 
-        if(!req.user){
+        if (!req.user) {
             res.redirect('/');
             return;
         }

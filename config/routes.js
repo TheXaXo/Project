@@ -27,14 +27,14 @@ module.exports = (app) => {
     function fileFilter(req, file, cb) {
         var type = file.mimetype;
         var typeArray = type.split("/");
-        if (typeArray[0] == "image") {
+        if (typeArray[0] == 'image') {
             cb(null, true);
         } else {
             cb(null, false);
         }
     }
 
-    var upload = multer({storage: storage, dest: "public/uploads", fileFilter: fileFilter});
+    var upload = multer({storage: storage, dest: 'public/uploads', fileFilter: fileFilter});
     app.post('/article/create', upload.single('photo'), articleController.createPost);
 
     app.get('/article/details/:id', articleController.details);
