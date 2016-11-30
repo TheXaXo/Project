@@ -20,6 +20,8 @@
             <a class="btn btn-default btn-sm" onClick="history.go(-1); return true">&laquo; Back</a>
             <a id="download" class="btn btn-default btn-sm" href="/uploads/{{article.imgName}}"
                download="{{article.imgName}}">Download</a>
+            <a class="btn btn-primary btn-sm"
+               href="/article/report/{{article.id}}">Report</a>
             {{#if isSaved}}
                 <a class="btn btn-warning btn-sm"
                    href="/article/save/{{article.id}}">Saved</a>

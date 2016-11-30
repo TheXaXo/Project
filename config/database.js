@@ -19,4 +19,5 @@ module.exports = (config) => {
     require('./../models/Article');
     require('./../models/Category');
     require('./../models/Resolution');
+    require('./../models/Report');
 };

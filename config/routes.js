@@ -46,6 +46,9 @@ module.exports = (app) => {
 
     app.get('/article/save/:id', articleController.saveArticle);
 
+    app.get('/article/report/:id', articleController.reportGet);
+    app.post('/article/report/:id', articleController.reportPost);
+
     app.get('/user/register', userController.registerGet);
     app.post('/user/register', userController.registerPost);
 
@@ -108,5 +111,10 @@ module.exports = (app) => {
 
     app.get('/admin/resolution/delete/:id', adminController.resolution.deleteGet);
     app.post('/admin/resolution/delete/:id', adminController.resolution.deletePost);
-};
 
+    app.get('/admin/report/all', adminController.report.all);
+
+    app.get('/admin/report/reason/:id', adminController.report.viewReason);
+
+    app.get('/admin/report/resolve/:id', adminController.report.resolveReport);
+};

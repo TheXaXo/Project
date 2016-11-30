@@ -1,0 +1,29 @@
+<h2>All Reports
+</h2>
+<table class="table table-striped table-hover ">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Reported by</th>
+        <th>Reason</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each reports}}
+        <tr>
+            <td>{{ this.id }}</td>
+            <td>
+                <a href="/user/details/{{this.reportedBy}}" class="btn btn-sm">{{this.reportedBy}}</a>
+            </td>
+            <td>
+                <a href="/admin/report/reason/{{this.id}}" class="btn btn-sm btn-warning">Reason</a>
+            </td>
+            <td>
+                <a href="/article/details/{{this.article}}" class="btn btn-sm btn-primary">Wallpaper</a>
+                <a href="/admin/report/resolve/{{this.id}}" class="btn btn-sm btn-success">Resolve</a>
+            </td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>

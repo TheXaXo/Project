@@ -2,6 +2,7 @@ const size = require('image-size');
 const Article = require('mongoose').model('Article');
 const Category = require('mongoose').model('Category');
 const User = require('mongoose').model('User');
+const Report = require('mongoose').model('Report');
 
 module.exports = {
     createGet: (req, res) => {
@@ -249,6 +250,50 @@ module.exports = {
                 }
                 currentUser.save();
                 res.redirect('/article/details/' + article.id);
+            })
+        })
+    },
+
+    reportGet: (req, res) => {
+        let user = req.user;
+        let id = req.params.id;
+
+        if (!user) {
+            res.redirect('/user/login');
+            return;
+        }
+
+        Article.findById(id).then(article => {
+            if (!article) {
+                res.redirect('/');
+                return;
+            }
+
+            res.render('article/report', {article: article})
+        })
+    },
+
+    reportPost: (req, res) => {
+        let user = req.user;
+        let id = req.params.id;
+
+        if (!user) {
+            res.redirect('/user/login');
+            return;
+        }
+
+        Article.findById(id).then(article => {
+            if (!article) {
+                res.redirect('/');
+                return;
+            }
+
+            let reportArgs = req.body;
+            reportArgs.reportedBy = user.nickname;
+            reportArgs.article = id;
+
+            Report.create(reportArgs).then(report => {
+                res.redirect('/article/details/' + id)
             })
         })
     }
