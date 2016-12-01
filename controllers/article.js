@@ -22,6 +22,7 @@ module.exports = {
         let articleArgs = req.body;
 
         let errorMsg = '';
+        let isResolutionTroublesome = false;
 
         if (!req.isAuthenticated()) {
             errorMsg = 'You should be logged in to make articles!'
@@ -39,6 +40,15 @@ module.exports = {
         let file = req.file;
         articleArgs.imgName = file.filename;
         let dimensions = size(file.path);
+
+        if (dimensions.width < 600 || dimensions.height < 400) {
+            isResolutionTroublesome = true;
+        }
+
+        if (isResolutionTroublesome){
+            res.render('article/create', {isResolutionTroublesome: isResolutionTroublesome});
+            return;
+        }
 
         articleArgs.width = dimensions.width;
         articleArgs.height = dimensions.height;
