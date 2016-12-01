@@ -69,10 +69,10 @@ module.exports = (app) => {
     app.get('/tag/:name', tagController.listArticlesByTag);
 
     app.use((req, res, next) => {
-        if (req.isAuthenticated()){
+        if (req.isAuthenticated()) {
             req.user.isInRole('Admin').then(isAdmin => {
-                if (isAdmin){
-                   next();
+                if (isAdmin) {
+                    next();
                 } else {
                     res.redirect('/');
                 }

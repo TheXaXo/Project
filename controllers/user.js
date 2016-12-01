@@ -2,6 +2,7 @@ const User = require('mongoose').model('User');
 const Article = require('mongoose').model('Article');
 const Role = require('mongoose').model('Role');
 const encryption = require('./../utilities/encryption');
+var fs = require("fs");
 
 module.exports = {
     registerGet: (req, res) => {
@@ -176,6 +177,9 @@ module.exports = {
                 }
 
                 if (req.file) {
+                    if (user.avatar !== 'default.png') {
+                        fs.unlink(__dirname + '\\..\\public\\uploads\\' + user.avatar);
+                    }
                     user.avatar = req.file.filename;
                 }
                 user.aboutme = req.body.aboutme;

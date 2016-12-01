@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Role = require('mongoose').model('Role');
 const encryption = require('./../utilities/encryption');
+var fs = require("fs");
 
 let userSchema = mongoose.Schema(
     {
@@ -59,6 +60,8 @@ userSchema.method({
         let Article = mongoose.model('Article');
         for (let article of this.articles) {
             Article.findById(article).then(article => {
+                fs.unlink(__dirname + '\\..\\public\\uploads\\' + article.imgName);
+                article.prepareDelete();
                 article.remove();
             })
         }
@@ -70,6 +73,3 @@ userSchema.set('versionKey', false);
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
-
-
-

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var fs = require("fs");
 
 let categorySchema = mongoose.Schema({
     name: {type: String, required: true, unique: true},
@@ -11,6 +12,7 @@ categorySchema.method({
         for (let article of this.articles) {
             Article.findById(article).then(article => {
                 article.prepareDelete();
+                fs.unlink(__dirname + '\\..\\public\\uploads\\' + article.imgName);
                 article.remove();
             })
         }

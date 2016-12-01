@@ -1,6 +1,49 @@
-<div style="padding: 10px">
-    <img src="http://localhost:3000/uploads/{{article.imgName}}" width="100%" style="margin-bottom: 15px">
+<div class="container-fluid" style="margin-bottom: 15px; padding: 0">
+    <a href="/uploads/{{article.imgName}}">
+        <img src="http://localhost:3000/uploads/{{article.imgName}}" width="100%">
+    </a>
+</div>
+<div class="container-fluid" style="margin-bottom: 15px; padding: 0px">
     <div class="col-md-12">
+        <div class="pull-left">
+            <a class="btn btn-default btn-sm" onClick="history.go(-1); return true">&laquo; Back</a>
+        </div>
+        <div class="pull-right">
+            <a id="download" class="btn btn-default btn-sm" href="/uploads/{{article.imgName}}"
+               download="{{article.imgName}}">
+                <span class="glyphicon glyphicon-download" style="margin-right: 4px"></span>Download
+            </a>
+            {{#if loggedUser}}
+                <a class="btn btn-primary btn-sm"
+                   href="/article/report/{{article.id}}">Report</a>
+                {{#if isSaved}}
+                    <a class="btn btn-warning btn-sm"
+                       href="/article/save/{{article.id}}">
+                        <span class="glyphicon glyphicon-ok" style="margin-right: 4px"></span>Saved
+                    </a>
+                {{/if}}
+                {{#unless isSaved}}
+                    <a class="btn btn-primary btn-sm"
+                       href="/article/save/{{article.id}}">
+                        <span class="glyphicon glyphicon-heart-empty" style="margin-right: 4px"></span>Save
+                    </a>
+                {{/unless}}
+            {{/if}}
+            {{#if isUserAuthorized}}
+                <a class="btn btn-success btn-sm"
+                   href="/article/edit/{{article.id}}">
+                    <span class="glyphicon glyphicon-edit" style="margin-right: 4px"></span>Edit
+                </a>
+                <a class="btn btn-danger btn-sm"
+                   href="/article/delete/{{article.id}}">
+                    <span class="glyphicon glyphicon-trash" style="margin-right: 4px"></span>Delete
+                </a>
+            {{/if}}
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="pull-left">
         <a href="/user/details/{{article.author.nickname}}">
             <img src="/uploads/{{article.author.avatar}}" class="img-circle" alt="Profile picture" width="40px"
                  height="40px" style="margin-bottom: 10px">
@@ -14,28 +57,5 @@
                    href="/tag/{{this}}">{{this}}</a>
             {{/each}}
         </p>
-    </div>
-    <div class="col-md-12" style="margin-bottom: 15px">
-        <div class="pull-right">
-            <a class="btn btn-default btn-sm" onClick="history.go(-1); return true">&laquo; Back</a>
-            <a id="download" class="btn btn-default btn-sm" href="/uploads/{{article.imgName}}"
-               download="{{article.imgName}}">Download</a>
-            <a class="btn btn-primary btn-sm"
-               href="/article/report/{{article.id}}">Report</a>
-            {{#if isSaved}}
-                <a class="btn btn-warning btn-sm"
-                   href="/article/save/{{article.id}}">Saved</a>
-            {{/if}}
-            {{#unless isSaved}}
-                <a class="btn btn-primary btn-sm"
-                   href="/article/save/{{article.id}}">Save</a>
-            {{/unless}}
-            {{#if isUserAuthorized}}
-                <a class="btn btn-success btn-sm"
-                   href="/article/edit/{{article.id}}">Edit</a>
-                <a class="btn btn-danger btn-sm"
-                   href="/article/delete/{{article.id}}">Delete</a>
-            {{/if}}
-        </div>
     </div>
 </div>

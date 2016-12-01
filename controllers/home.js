@@ -7,6 +7,12 @@ module.exports = {
     listCategoryArticles: (req, res) => {
         let id = req.params.id;
 
+        // Yes, it's a valid ObjectId, proceed with `findById` call.
+        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+            res.redirect('/');
+            return
+        }
+
         let currentPage = req.query.page;
 
         let currentPageInt = 0;

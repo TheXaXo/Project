@@ -1,6 +1,7 @@
 const User = require('mongoose').model('User');
 const Role = require('mongoose').model('Role');
 const encryption = require('./../../utilities/encryption');
+var fs = require("fs");
 
 module.exports = {
     all: (req, res) => {
@@ -110,8 +111,14 @@ module.exports = {
     deletePost: (req, res) => {
         let id = req.params.id;
 
-        User.findOneAndRemove({_id: id}).then(user => {
+        User.findById(id).then(user => {
             user.prepareDelete();
+
+            if (user.avatar !== 'default.png') {
+                fs.unlink(__dirname + '\\..\\..\\public\\uploads\\' + user.avatar);
+            }
+
+            user.remove();
         });
         res.redirect('/admin/user/all');
     }

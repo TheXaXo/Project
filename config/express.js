@@ -34,6 +34,12 @@ module.exports = (app, config) => {
             app.locals.firstName = firstName;
             req.user.isInRole('Admin').then(isAdmin => {
                 res.locals.isAdmin = isAdmin;
+
+                const Report = require('mongoose').model('Report');
+                Report.find({}).then(reports => {
+                    res.locals.reportsCount = reports.length;
+                });
+
                 next();
             });
         } else {
@@ -82,8 +88,6 @@ module.exports = (app, config) => {
                 for (let resolution of resolutions) {
                     if (resolution.name === resolutionQuery) {
                         resolution.isChecked = true;
-                    } else {
-                        resolution.isChecked = false;
                     }
                 }
                 app.locals.resolutions = resolutions;

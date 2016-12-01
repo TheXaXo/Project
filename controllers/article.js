@@ -1,4 +1,6 @@
 const size = require('image-size');
+var path = require('path');
+const fs = require("fs");
 const Article = require('mongoose').model('Article');
 const Category = require('mongoose').model('Category');
 const User = require('mongoose').model('User');
@@ -60,12 +62,13 @@ module.exports = {
     details: (req, res) => {
         let id = req.params.id;
 
-        Article.findById(id).populate('author').then(article => {
-            if(!article){
-                res.redirect('/');
-                return;
-            }
+        // Yes, it's a valid ObjectId, proceed with `findById` call.
+        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+            res.redirect('/');
+            return;
+        }
 
+        Article.findById(id).populate('author').then(article => {
             article.views += 1;
             article.save();
 
@@ -88,6 +91,11 @@ module.exports = {
 
     editGet: (req, res) => {
         let id = req.params.id;
+
+        // Yes, it's a valid ObjectId, proceed with `findById` call.
+        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+            res.redirect('/');
+        }
 
         if (!req.isAuthenticated()) {
             let returnUrl = `/article/edit/${id}`;
@@ -175,6 +183,12 @@ module.exports = {
     deleteGet: (req, res) => {
         let id = req.params.id;
 
+        // Yes, it's a valid ObjectId, proceed with `findById` call.
+        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+            res.redirect('/');
+            return;
+        }
+
         if (!req.isAuthenticated()) {
             let returnUrl = `/article/edit/${id}`;
             req.session.returnUrl = returnUrl;
@@ -217,6 +231,7 @@ module.exports = {
                 } else {
                     Article.findOneAndRemove({_id: id}).populate('author').then(article => {
                         article.prepareDelete();
+                        fs.unlink(__dirname + '\\..\\public\\uploads\\' + article.imgName);
                         res.redirect('/');
                     })
                 }
