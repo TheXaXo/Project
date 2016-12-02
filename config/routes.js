@@ -49,6 +49,8 @@ module.exports = (app) => {
     app.get('/article/report/:id', articleController.reportGet);
     app.post('/article/report/:id', articleController.reportPost);
 
+    app.get('/download/:imgName', articleController.downloadGet);
+
     app.get('/user/register', userController.registerGet);
     app.post('/user/register', userController.registerPost);
 

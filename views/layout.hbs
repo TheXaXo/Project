@@ -7,6 +7,7 @@
     <script src="/javascripts/bootstrap.js"></script>
     <script src="/javascripts/search.js"></script>
     <script src="/javascripts/sorting.js"></script>
+    <script src="/javascripts/navbar.js"></script>
 </head>
 <body background="/background/footer_lodyas.png">
 <header style="padding-bottom: 10px">
@@ -32,7 +33,7 @@
                     </div>
                 </li>
                 {{#if isAdmin}}
-                    <li class="dropdown">
+                    <li class="dropdown" id="admin">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                            role="button" aria-expanded="false">
                             <span class="badge" style="margin-right: 4px">{{reportsCount}}</span>Admin<span
@@ -52,7 +53,7 @@
                                   style="margin-right: 4px"></span>Welcome, {{firstName}}
                         </a>
                     </li>
-                    <li>
+                    <li id="upload">
                         <a href="/article/create">
                             <span class="glyphicon glyphicon-upload" style="margin-right: 4px"></span>Upload
                         </a>
@@ -66,12 +67,12 @@
                 {{/if}}
                 {{#unless loggedUser}}
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
+                        <li id="register">
                             <a href="/user/register">
                                 <span class="glyphicon glyphicon-pencil" style="margin-right: 4px"></span>Register
                             </a>
                         </li>
-                        <li>
+                        <li id="login">
                             <a href="/user/login">
                                 <span class="glyphicon glyphicon-log-in" style="margin-right: 4px"></span>Login
                             </a>

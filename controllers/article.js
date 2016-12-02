@@ -47,7 +47,7 @@ module.exports = {
             isResolutionTroublesome = true;
         }
 
-        if (isResolutionTroublesome){
+        if (isResolutionTroublesome) {
             res.render('article/create', {isResolutionTroublesome: isResolutionTroublesome});
             return;
         }
@@ -231,7 +231,7 @@ module.exports = {
         }
 
         Article.findById(id).then(article => {
-            if (!article){
+            if (!article) {
                 res.redirect('/');
                 return;
             }
@@ -263,7 +263,7 @@ module.exports = {
                 res.redirect('/');
                 return;
             }
-            User.findById(user.id).then(currentUser=> {
+            User.findById(user.id).then(currentUser => {
                 if (!currentUser) {
                     res.redirect('/user/login');
                     return;
@@ -320,6 +320,23 @@ module.exports = {
             Report.create(reportArgs).then(report => {
                 res.redirect('/article/details/' + id)
             })
+        })
+    },
+
+    downloadGet: (req, res) => {
+        let imgName = req.params.imgName;
+
+        Article.findOne({imgName: imgName}).then(article => {
+            if (!article) {
+                res.redirect('/');
+                return;
+            }
+
+            let file = __dirname + '/../public/uploads/' + imgName;
+            res.download(file);
+
+            article.downloads += 1;
+            article.save();
         })
     }
 };

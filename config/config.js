@@ -5,7 +5,7 @@ module.exports = {
         rootFolder: path.normalize(path.join(__dirname, '/../')),
         connectionString: 'mongodb://localhost:27017/blog'
     },
-    production:{}
+    production: {}
 };
 
 

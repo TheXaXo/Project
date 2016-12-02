@@ -9,8 +9,7 @@
             <a class="btn btn-default btn-sm" onClick="history.go(-1); return true">&laquo; Back</a>
         </div>
         <div class="pull-right">
-            <a id="download" class="btn btn-default btn-sm" href="/uploads/{{article.imgName}}"
-               download="{{article.imgName}}">
+            <a id="download" class="btn btn-default btn-sm" href="/download/{{article.imgName}}">
                 <span class="glyphicon glyphicon-download" style="margin-right: 4px"></span>Download
             </a>
             {{#if loggedUser}}
