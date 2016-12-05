@@ -1,6 +1,15 @@
-<form class="form-horizontal" method="POST" action="/article/edit/{{id}}">
+<form class="form-horizontal" method="POST" action="/article/edit/{{article.id}}">
     <fieldset>
         <legend>Edit Wallpaper</legend>
+        {{#if error}}
+            <div style="text-align: center">
+                <div class="alert alert-dismissible alert-danger fade in" style="display: inline-block">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <span class="glyphicon glyphicon-remove-sign" style="margin-right: 4px"></span>
+                    {{error}}
+                </div>
+            </div>
+        {{/if}}
         <div class="form-group">
             <label class="col-sm-4 control-label"
                    for="select">Category</label>
@@ -16,12 +25,12 @@
             <label class="col-sm-4 control-label" for="tags">Tags</label>
             <div class="col-sm-4 ">
                 <input type="text" class="form-control" id="tags" name="tags"
-                       value="{{tagNames}}">
+                       value="{{article.tagNames}}">
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-4 col-sm-offset-4">
-                <a href="/article/details/{{id}}" class="btn btn-default">Cancel</a>
+                <a href="/article/details/{{article.id}}" class="btn btn-default">Cancel</a>
                 <button type="submit" class="btn btn-success">Edit</button>
             </div>
         </div>

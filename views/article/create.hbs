@@ -1,15 +1,14 @@
 <form class="form-horizontal" method="POST" action="/article/create" enctype="multipart/form-data">
     <fieldset>
         <legend>Upload Wallpaper</legend>
-        {{#if isResolutionTroublesome}}
-        <div class="panel panel-danger">
-            <div class="panel-heading">
-                <h3 class="panel-title">Error</h3>
+        {{#if error}}
+            <div style="text-align: center">
+                <div class="alert alert-dismissible alert-danger fade in" style="display: inline-block">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <span class="glyphicon glyphicon-remove-sign" style="margin-right: 4px"></span>
+                    {{error}}
+                </div>
             </div>
-            <div class="panel-body">
-                The wallpaper you are trying to upload doesn't meet our resolution requirements. Picture should be at least 600x400.
-            </div>
-        </div>
         {{/if}}
         <div class="form-group">
             <label class="control-label col-sm-4">Picture</label>

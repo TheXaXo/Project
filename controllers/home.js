@@ -59,7 +59,7 @@ module.exports = {
 
                 var pages = [];
                 let articlesCount = categoryArticles.length;
-                let numberOfPages = Math.ceil(articlesCount / 3);
+                let numberOfPages = Math.ceil(articlesCount / 15);
 
                 for (var a = 1; a <= numberOfPages; a++) {
                     if (currentPageInt + 1 === a) {
@@ -87,7 +87,7 @@ module.exports = {
                 }
 
                 categoryArticles = categoryArticles
-                    .slice(currentPageInt * 3, currentPageInt * 3 + 3);
+                    .slice(currentPageInt * 15, currentPageInt * 15 + 15);
 
 
                 res.render('home/articles', {
@@ -148,7 +148,7 @@ module.exports = {
             }
 
             let articlesCount = articles.length;
-            let numberOfPages = Math.ceil(articlesCount / 3);
+            let numberOfPages = Math.ceil(articlesCount / 15);
 
             for (var a = 1; a <= numberOfPages; a++) {
                 if (currentPageInt + 1 === a) {
@@ -176,7 +176,7 @@ module.exports = {
             }
 
             articles = articles
-                .slice(currentPageInt * 3, currentPageInt * 3 + 3);
+                .slice(currentPageInt * 15, currentPageInt * 15 + 15);
 
 
             res.render('home/articles', {
@@ -250,7 +250,7 @@ module.exports = {
 
             var pages = [];
             let articlesCount = articlesToSearch.length;
-            let numberOfPages = Math.ceil(articlesCount / 3);
+            let numberOfPages = Math.ceil(articlesCount / 15);
 
             for (var a = 1; a <= numberOfPages; a++) {
                 if (currentPageInt + 1 === a) {
@@ -278,7 +278,7 @@ module.exports = {
             }
 
             articlesToSearch = articlesToSearch
-                .slice(currentPageInt * 3, currentPageInt * 3 + 3);
+                .slice(currentPageInt * 15, currentPageInt * 15 + 15);
 
             res.render('home/articles', {
                 articles: articlesToSearch,
@@ -286,7 +286,7 @@ module.exports = {
                 pagesExist: true,
                 sortingExists: true,
                 symbol: '&',
-                error: 'Search wallpapers: ' + tagsAsText,
+                message: 'Search wallpapers: ' + tagsAsText,
                 onPageWithWallpapers: true,
                 onAllResolutions: onAllResolutions,
 

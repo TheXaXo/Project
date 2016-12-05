@@ -1,12 +1,13 @@
 <div class="container-fluid" style="margin-bottom: 15px; padding: 0">
     <a href="/uploads/{{article.imgName}}">
-        <img src="http://localhost:3000/uploads/{{article.imgName}}" width="100%">
+        <img src="/uploads/{{article.imgName}}" width="100%">
     </a>
 </div>
 <div class="container-fluid" style="margin-bottom: 15px; padding: 0px">
     <div class="col-md-12">
         <div class="pull-left">
-            <a class="btn btn-default btn-sm" onClick="history.go(-1); return true">&laquo; Back</a>
+            <a class="btn btn-default btn-sm" onClick="history.go(-1); return true"><span
+                    class="glyphicon glyphicon-menu-left" style="margin-right: 4px"></span>Back</a>
         </div>
         <div class="pull-right">
             <a id="download" class="btn btn-default btn-sm" href="/download/{{article.imgName}}">
@@ -50,7 +51,7 @@
         </a>
         <p>Views: {{article.views}}</p>
         <p>Downloads: {{article.downloads}}</p>
-        <p>
+        <p><span class="glyphicon glyphicon-tags" style="margin-right: 4px"></span>Tags:
             {{#each article.tags }}
                 <a class="btn btn-default btn-sm"
                    href="/tag/{{this}}">{{this}}</a>

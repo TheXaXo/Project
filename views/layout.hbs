@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
 <head>
     <title>UberPapers</title>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel='stylesheet' href='/stylesheets/footer.css'/>
+    <link rel='stylesheet' href='/stylesheets/hover.css'/>
     <script src="/javascripts/jquery-1.10.2.js"></script>
     <script src="/javascripts/bootstrap.js"></script>
     <script src="/javascripts/search.js"></script>
@@ -10,189 +11,202 @@
     <script src="/javascripts/navbar.js"></script>
 </head>
 <body background="/background/footer_lodyas.png">
-<header style="padding-bottom: 10px">
-    <div class="navbar navbar-default navbar-static-top">
-        <div class="container">
-            <div class="navbar-header">
-                <a href="/" class="navbar-left"><img src="/background/logo.png" width="175px"></a>
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <div class="navbar-form" role="search">
-                        <input id="searchBar" value="" type="text" class="form-control" placeholder="Search"
-                               name="tags">
-                        <a id="button" href="" type="submit" class="btn btn-default">
-                            <span class="glyphicon glyphicon-search" style="margin-right: 4px"></span>Search
-                        </a>
+<div id="wrapper">
+    <div class="container-fluid" style="padding: 0px">
+        <header style="padding-bottom: 10px">
+            <div class="navbar navbar-default navbar-static-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a href="/" class="navbar-left hvr-shrink"><img src="/background/logo.png" width="175px"></a>
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
                     </div>
-                </li>
-                {{#if isAdmin}}
-                    <li class="dropdown" id="admin">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                           role="button" aria-expanded="false">
-                            <span class="badge" style="margin-right: 4px">{{reportsCount}}</span>Admin<span
-                                class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="/admin/user/all">Users</a></li>
-                            <li><a href="/admin/category/all">Categories</a></li>
-                            <li><a href="/admin/resolution/all">Resolutions</a></li>
-                            <li><a href="/admin/report/all">Reports</a></li>
-                        </ul>
-                    </li>
-                {{/if}}
-                {{#if loggedUser}}
-                    <li>
-                        <a href="/user/details/{{loggedUser.nickname}}">
+                    <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <div class="navbar-form" role="search">
+                                <div class="input-group">
+                                    <input id="searchBar" value="" type="text" class="form-control" placeholder="Search"
+                                           name="tags">
+                                    <span class="input-group-btn">
+                                    <a id="button" href="" type="submit" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-search" style="margin-right: 4px"></span>Search
+                                    </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        {{#if isAdmin}}
+                            <li class="dropdown" id="admin">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                   role="button" aria-expanded="false">
+                                    <span class="badge" style="margin-right: 4px">{{reportsCount}}</span>Admin<span
+                                        class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="/admin/user/all">Users</a></li>
+                                    <li><a href="/admin/category/all">Categories</a></li>
+                                    <li><a href="/admin/resolution/all">Resolutions</a></li>
+                                    <li><a href="/admin/report/all">Reports</a></li>
+                                </ul>
+                            </li>
+                        {{/if}}
+                        {{#if loggedUser}}
+                            <li>
+                                <a href="/user/details/{{loggedUser.nickname}}">
                             <span class="glyphicon glyphicon-user"
                                   style="margin-right: 4px"></span>Welcome, {{firstName}}
-                        </a>
-                    </li>
-                    <li id="upload">
-                        <a href="/article/create">
-                            <span class="glyphicon glyphicon-upload" style="margin-right: 4px"></span>Upload
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/user/logout">
-                            <span class="glyphicon glyphicon-log-out" style="margin-right: 4px"></span>Logout
-                        </a>
-                    </li>
-                </ul>
-                {{/if}}
-                {{#unless loggedUser}}
-                    <ul class="nav navbar-nav navbar-right">
-                        <li id="register">
-                            <a href="/user/register">
-                                <span class="glyphicon glyphicon-pencil" style="margin-right: 4px"></span>Register
+                                </a>
+                            </li>
+                            <li id="upload">
+                                <a href="/article/create">
+                                    <span class="glyphicon glyphicon-upload" style="margin-right: 4px"></span>Upload
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/user/logout">
+                                    <span class="glyphicon glyphicon-log-out" style="margin-right: 4px"></span>Logout
+                                </a>
+                            </li>
+                        </ul>
+                        {{/if}}
+                        {{#unless loggedUser}}
+                            <ul class="nav navbar-nav navbar-right">
+                                <li id="register">
+                                    <a href="/user/register">
+                                        <span class="glyphicon glyphicon-pencil" style="margin-right: 4px"></span>Register
+                                    </a>
+                                </li>
+                                <li id="login">
+                                    <a href="/user/login">
+                                        <span class="glyphicon glyphicon-log-in" style="margin-right: 4px"></span>Login
+                                    </a>
+                                </li>
+                            </ul>
+                        {{/unless}}
+                    </div>
+                </div>
+            </div>
+        </header>
+        {{#if message}}
+            <div style="text-align: center">
+                <h3>{{message}}</h3>
+            </div>
+        {{/if}}
+        <div style="text-align: center">
+            {{#if sortingExists}}
+                <div class="btn-group">
+                    <a class="btn btn-default disabled">
+                        <span class="glyphicon glyphicon-sort-by-attributes" style="margin-right: 4px"></span>Sort
+                        wallpapers by
+                    </a>
+                    <a href="{{currentUrl}}{{symbol}}sort=undefined&page=0&res={{currentResolution}}" id="sortnew"
+                       class="btn btn-default">New</a>
+                    <a href="{{currentUrl}}{{symbol}}sort=downloads&page=0&res={{currentResolution}}" id="sortdownloads"
+                       class="btn btn-default">Downloads</a>
+                    <a href="{{currentUrl}}{{symbol}}sort=views&page=0&res={{currentResolution}}" id="sortviews"
+                       class="btn btn-default">Views</a>
+                </div>
+            {{/if}}
+        </div>
+        <div style="padding-top: 30px">
+            <div class="col-md-2" style="text-align: center">
+                <div class="list-group">
+                    {{#each categories}}
+                        {{#if this.isChecked}}
+                            <a class="list-group-item" href="/category/{{this.id}}"
+                               style="color:#F2F2F2; background: slategrey">{{this.name}}
+                                <span class="badge">{{this.articlesCount}}</span>
                             </a>
-                        </li>
-                        <li id="login">
-                            <a href="/user/login">
-                                <span class="glyphicon glyphicon-log-in" style="margin-right: 4px"></span>Login
+                        {{/if}}
+                        {{#unless this.isChecked}}
+                            <a class="list-group-item" href="/category/{{this.id}}">{{this.name}}
+                                <span class="badge">{{this.articlesCount}}</span>
                             </a>
-                        </li>
-                    </ul>
-                {{/unless}}
+                        {{/unless}}
+                    {{/each}}
+                </div>
+            </div>
+            <div class="well col-md-8">
+                {{{body}}}
+            </div>
+            <div class="col-md-2" style="text-align: center">
+                <div class="list-group">
+                    {{#if onPageWithWallpapers}}
+                        {{#if onAllResolutions}}
+                            <a class="list-group-item" style="margin-bottom: 10px; color:#F2F2F2; background: slategrey"
+                               href="{{currentUrl}}{{symbol}}sort={{currentSort}}&page=0&res=all">All</a>
+                        {{/if}}
+                        {{#unless onAllResolutions}}
+                            <a class="list-group-item" style="margin-bottom: 10px"
+                               href="{{currentUrl}}{{symbol}}sort={{currentSort}}&page=0&res=all">All</a>
+                        {{/unless}}
+                        {{#each resolutions}}
+                            {{#if this.isChecked}}
+                                <a class="list-group-item"
+                                   href="{{../currentUrl}}{{../symbol}}sort={{../currentSort}}&page=0&res={{this.name}}"
+                                   style="color:#F2F2F2; background: slategrey">{{this.name}}
+                                </a>
+                            {{/if}}
+                            {{#unless this.isChecked}}
+                                <a class="list-group-item"
+                                   href="{{../currentUrl}}{{../symbol}}sort={{../currentSort}}&page=0&res={{this.name}}">{{this.name}}
+                                </a>
+                            {{/unless}}
+                        {{/each}}
+                    {{/if}}
+                    {{#unless onPageWithWallpapers}}
+                        <a class="list-group-item" style="margin-bottom: 10px"
+                           href="/?res=all">All</a>
+                        {{#each resolutions}}
+                            {{#if this.isChecked}}
+                                <a class="list-group-item"
+                                   href="/?res={{this.name}}"
+                                   style="color:#F2F2F2; background: slategrey">{{this.name}}
+                                </a>
+                            {{/if}}
+                            {{#unless this.isChecked}}
+                                <a class="list-group-item"
+                                   href="/?res={{this.name}}">{{this.name}}
+                                </a>
+                            {{/unless}}
+                        {{/each}}
+                    {{/unless}}
+                </div>
             </div>
         </div>
-    </div>
-</header>
-{{#if error }}
-    <div style="text-align: center">
-        <h3>{{error}}</h3>
-    </div>
-{{/if}}
-<div style="text-align: center">
-    {{#if sortingExists}}
-        <div class="btn-group">
-            <a class="btn btn-default disabled">
-                <span class="glyphicon glyphicon-sort-by-attributes" style="margin-right: 4px"></span>Sort wallpapers by
-            </a>
-            <a href="{{currentUrl}}{{symbol}}sort=undefined&page=0&res={{currentResolution}}" id="sortnew"
-               class="btn btn-default">New</a>
-            <a href="{{currentUrl}}{{symbol}}sort=downloads&page=0&res={{currentResolution}}" id="sortdownloads"
-               class="btn btn-default">Downloads</a>
-            <a href="{{currentUrl}}{{symbol}}sort=views&page=0&res={{currentResolution}}" id="sortviews"
-               class="btn btn-default">Views</a>
-        </div>
-    {{/if}}
-</div>
-<div style="padding-top: 30px">
-    <div class="col-md-2" style="text-align: center">
-        <div class="list-group">
-            {{#each categories}}
-                {{#if this.isChecked}}
-                    <a class="list-group-item" href="/category/{{this.id}}"
-                       style="color:#F2F2F2; background: slategrey">{{this.name}}
-                        <span class="badge">{{this.articlesCount}}</span>
-                    </a>
-                {{/if}}
-                {{#unless this.isChecked}}
-                    <a class="list-group-item" href="/category/{{this.id}}">{{this.name}}
-                        <span class="badge">{{this.articlesCount}}</span>
-                    </a>
-                {{/unless}}
-            {{/each}}
-        </div>
-    </div>
-    <div class="well col-md-8">
-        {{{body}}}
-    </div>
-    <div class="col-md-2" style="text-align: center">
-        <div class="list-group">
-            {{#if onPageWithWallpapers}}
-                {{#if onAllResolutions}}
-                    <a class="list-group-item" style="margin-bottom: 10px; color:#F2F2F2; background: slategrey"
-                       href="{{currentUrl}}{{symbol}}sort={{currentSort}}&page=0&res=all">All</a>
-                {{/if}}
-                {{#unless onAllResolutions}}
-                    <a class="list-group-item" style="margin-bottom: 10px"
-                       href="{{currentUrl}}{{symbol}}sort={{currentSort}}&page=0&res=all">All</a>
-                {{/unless}}
-                {{#each resolutions}}
-                    {{#if this.isChecked}}
-                        <a class="list-group-item"
-                           href="{{../currentUrl}}{{../symbol}}sort={{../currentSort}}&page=0&res={{this.name}}"
-                           style="color:#F2F2F2; background: slategrey">{{this.name}}
-                        </a>
-                    {{/if}}
-                    {{#unless this.isChecked}}
-                        <a class="list-group-item"
-                           href="{{../currentUrl}}{{../symbol}}sort={{../currentSort}}&page=0&res={{this.name}}">{{this.name}}
-                        </a>
-                    {{/unless}}
-                {{/each}}
-            {{/if}}
-            {{#unless onPageWithWallpapers}}
-                <a class="list-group-item" style="margin-bottom: 10px"
-                   href="/?res=all">All</a>
-                {{#each resolutions}}
-                    {{#if this.isChecked}}
-                        <a class="list-group-item"
-                           href="/?res={{this.name}}"
-                           style="color:#F2F2F2; background: slategrey">{{this.name}}
-                        </a>
-                    {{/if}}
-                    {{#unless this.isChecked}}
-                        <a class="list-group-item"
-                           href="/?res={{this.name}}">{{this.name}}
-                        </a>
-                    {{/unless}}
-                {{/each}}
-            {{/unless}}
-        </div>
+        {{#if pagesExist}}
+            <div class="col-md-12" style="text-align: center">
+                <div>
+                    <ul class="pagination">
+                        {{#each pages}}
+                            <li>
+                                {{#if this.isSelected}}
+                                    <a href="{{../currentUrl}}{{../symbol}}sort={{../currentSort}}&page={{this.index}}&res={{../currentResolution}}"
+                                       class="btn btn-default active">{{this.text}}</a>
+                                {{/if}}
+                                {{#unless this.isSelected}}
+                                    <a href="{{../currentUrl}}{{../symbol}}sort={{../currentSort}}&page={{this.index}}&res={{../currentResolution}}"
+                                       class="btn btn-default">{{this.text}}</a>
+                                {{/unless}}
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        {{/if}}
     </div>
 </div>
-{{#if pagesExist}}
-    <div class="col-md-12" style="text-align: center">
-        <div>
-            <ul class="pagination">
-                {{#each pages}}
-                    <li>
-                        {{#if this.isSelected}}
-                            <a href="{{../currentUrl}}{{../symbol}}sort={{../currentSort}}&page={{this.index}}&res={{../currentResolution}}"
-                               class="btn btn-default active">{{this.text}}</a>
-                        {{/if}}
-                        {{#unless this.isSelected}}
-                            <a href="{{../currentUrl}}{{../symbol}}sort={{../currentSort}}&page={{this.index}}&res={{../currentResolution}}"
-                               class="btn btn-default">{{this.text}}</a>
-                        {{/unless}}
-                    </li>
-                {{/each}}
-            </ul>
-        </div>
+
+<div id="footer">
+    <div class="container-fluid">
+        <p style="float: left">Made with <span class="glyphicon glyphicon-heart" style="color: red"></span> by team
+            Virtus-Throw</p>
+        <p style="float: right">&copy; 2016 - Uberpapers, Bulgaria</p>
     </div>
-{{/if}}
+</div>
 </body>
-<footer style="padding-top: 30px">
-    <div class="container-fluid navbar-default navbar-fixed-bottom push">
-        <p class="navbar-right">&copy; 2016 - Uberpapers, Bulgaria</p>
-    </div>
-</footer>
 </html>
