@@ -274,7 +274,7 @@ module.exports = {
 
                     var pages = [];
                     let articlesCount = articlesToSearch.length;
-                    let numberOfPages = Math.ceil(articlesCount / 3);
+                    let numberOfPages = Math.ceil(articlesCount / 15);
 
                     for (var a = 1; a <= numberOfPages; a++) {
                         if (currentPageInt + 1 === a) {
@@ -302,11 +302,11 @@ module.exports = {
                     }
 
                     articlesToSearch = articlesToSearch
-                        .slice(currentPageInt * 3, currentPageInt * 3 + 3);
+                        .slice(currentPageInt * 15, currentPageInt * 15 + 15);
 
                     res.render('home/articles', {
                         articles: articlesToSearch,
-                        error: nickname + '\'s uploads',
+                        message: nickname + '\'s uploads',
                         pages: pages,
                         pagesExist: true,
                         sortingExists: true,
@@ -387,7 +387,7 @@ module.exports = {
 
                     var pages = [];
                     let articlesCount = articlesToSearch.length;
-                    let numberOfPages = Math.ceil(articlesCount / 3);
+                    let numberOfPages = Math.ceil(articlesCount / 15);
 
                     for (var a = 1; a <= numberOfPages; a++) {
                         if (currentPageInt + 1 === a) {
@@ -415,11 +415,11 @@ module.exports = {
                     }
 
                     articlesToSearch = articlesToSearch
-                        .slice(currentPageInt * 3, currentPageInt * 3 + 3);
+                        .slice(currentPageInt * 15, currentPageInt * 15 + 15);
 
                     res.render('home/articles', {
                         articles: articlesToSearch,
-                        error: nickname + '\'s saved',
+                        message: nickname + '\'s saved',
                         pages: pages,
                         pagesExist: true,
                         sortingExists: true,
