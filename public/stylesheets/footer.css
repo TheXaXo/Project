@@ -1,0 +1,16 @@
+html,
+body {
+  height: 100%;
+}
+
+#wrapper {
+  min-height: 100%;
+  height: auto;
+  margin: 0 auto -30px;
+  padding: 0 0 30px;
+}
+
+#footer {
+  height: 30px;
+  background-color: #32383e;
+}

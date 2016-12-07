@@ -2,6 +2,7 @@ const multer = require('multer');
 const path = require('path');
 const userController = require('./../controllers/user');
 const homeController = require('./../controllers/home');
+const categoryController = require('./../controllers/category');
 const adminController = require('./../controllers/admin/admin');
 const articleController = require('./../controllers/article');
 const tagController = require('./../controllers/tag');
@@ -9,7 +10,7 @@ const tagController = require('./../controllers/tag');
 module.exports = (app) => {
     app.get('/', homeController.index);
 
-    app.get('/category/:id', homeController.listCategoryArticles);
+    app.get('/category/:id', categoryController.listCategoryArticles);
 
     app.get('/search', homeController.search);
 
@@ -51,6 +52,8 @@ module.exports = (app) => {
 
     app.get('/article/report/:id', articleController.reportGet);
     app.post('/article/report/:id', articleController.reportPost);
+
+    app.get('/download/:imgName', articleController.downloadGet);
 
     app.get('/user/register', userController.registerGet);
     app.post('/user/register', userController.registerPost);

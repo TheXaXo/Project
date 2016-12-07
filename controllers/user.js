@@ -2,6 +2,7 @@ const User = require('mongoose').model('User');
 const Article = require('mongoose').model('Article');
 const Role = require('mongoose').model('Role');
 const encryption = require('./../utilities/encryption');
+const size = require('image-size');
 var fs = require("fs");
 
 module.exports = {
@@ -161,26 +162,36 @@ module.exports = {
 
         let id = user.id;
         let profileNickname = req.params.nickname;
+        let file = req.file;
+        let dimensions = size(file.path);
         let errorMsg = '';
 
         if (user.nickname === profileNickname) {
             User.findById(id).then(user => {
                 if (!editArgs.fullName) {
                     errorMsg = 'Name cannot be null!';
+                    fs.unlink(__dirname + '\\..\\public\\uploads\\' + file.filename);
                 } else if (editArgs.password !== editArgs.confirmedPassword) {
                     errorMsg = 'Passwords do not match!';
+                    fs.unlink(__dirname + '\\..\\public\\uploads\\' + file.filename);
+                } else if (dimensions.width < 60 && dimensions.height < 40) {
+                    errorMsg = 'Image too small!';
+                    fs.unlink(__dirname + '\\..\\public\\uploads\\' + file.filename);
+                } else if (dimensions.width > 5000 && dimensions.height > 5000) {
+                    errorMsg = 'Image too big!';
+                    fs.unlink(__dirname + '\\..\\public\\uploads\\' + file.filename);
                 }
 
                 if (errorMsg) {
-                    res.render('user/edit', {error: errorMsg});
+                    res.render('user/edit', {error: errorMsg, user: user});
                     return;
                 }
 
-                if (req.file) {
+                if (file) {
                     if (user.avatar !== 'default.png') {
                         fs.unlink(__dirname + '\\..\\public\\uploads\\' + user.avatar);
                     }
-                    user.avatar = req.file.filename;
+                    user.avatar = file.filename;
                 }
                 user.aboutme = req.body.aboutme;
                 user.fullName = req.body.fullName;
@@ -263,7 +274,7 @@ module.exports = {
 
                     var pages = [];
                     let articlesCount = articlesToSearch.length;
-                    let numberOfPages = Math.ceil(articlesCount / 3);
+                    let numberOfPages = Math.ceil(articlesCount / 15);
 
                     for (var a = 1; a <= numberOfPages; a++) {
                         if (currentPageInt + 1 === a) {
@@ -291,11 +302,11 @@ module.exports = {
                     }
 
                     articlesToSearch = articlesToSearch
-                        .slice(currentPageInt * 3, currentPageInt * 3 + 3);
+                        .slice(currentPageInt * 15, currentPageInt * 15 + 15);
 
                     res.render('home/articles', {
                         articles: articlesToSearch,
-                        error: nickname + '\'s uploads',
+                        message: nickname + '\'s uploads',
                         pages: pages,
                         pagesExist: true,
                         sortingExists: true,
@@ -376,7 +387,7 @@ module.exports = {
 
                     var pages = [];
                     let articlesCount = articlesToSearch.length;
-                    let numberOfPages = Math.ceil(articlesCount / 3);
+                    let numberOfPages = Math.ceil(articlesCount / 15);
 
                     for (var a = 1; a <= numberOfPages; a++) {
                         if (currentPageInt + 1 === a) {
@@ -404,11 +415,11 @@ module.exports = {
                     }
 
                     articlesToSearch = articlesToSearch
-                        .slice(currentPageInt * 3, currentPageInt * 3 + 3);
+                        .slice(currentPageInt * 15, currentPageInt * 15 + 15);
 
                     res.render('home/articles', {
                         articles: articlesToSearch,
-                        error: nickname + '\'s saved',
+                        message: nickname + '\'s saved',
                         pages: pages,
                         pagesExist: true,
                         sortingExists: true,
@@ -489,7 +500,7 @@ module.exports = {
 
                     var pages = [];
                     let articlesCount = articlesToSearch.length;
-                    let numberOfPages = Math.ceil(articlesCount / 3);
+                    let numberOfPages = Math.ceil(articlesCount / 15);
 
                     for (var a = 1; a <= numberOfPages; a++) {
                         if (currentPageInt + 1 === a) {
@@ -517,7 +528,7 @@ module.exports = {
                     }
 
                     articlesToSearch = articlesToSearch
-                        .slice(currentPageInt * 3, currentPageInt * 3 + 3);
+                        .slice(currentPageInt * 15, currentPageInt * 15 + 15);
 
                     res.render('home/articles', {
                         articles: articlesToSearch,

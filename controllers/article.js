@@ -22,16 +22,23 @@ module.exports = {
 
     createPost: (req, res) => {
         let articleArgs = req.body;
-
+        let file = req.file;
+        let dimensions = size(file.path);
         let errorMsg = '';
-        let isResolutionTroublesome = false;
 
         if (!req.isAuthenticated()) {
             errorMsg = 'You should be logged in to make articles!'
         } else if (!req.file) {
             errorMsg = 'Invalid file!'
         } else if (!articleArgs.tagNames) {
-            errorMsg = 'Missing tags!'
+            errorMsg = 'Missing tags!';
+            fs.unlink(__dirname + '\\..\\public\\uploads\\' + file.filename);
+        } else if (dimensions.width < 600 && dimensions.height < 400) {
+            errorMsg = 'Image too small!';
+            fs.unlink(__dirname + '\\..\\public\\uploads\\' + file.filename);
+        } else if (dimensions.width > 10000 && dimensions.height > 8000) {
+            errorMsg = 'Image too big!';
+            fs.unlink(__dirname + '\\..\\public\\uploads\\' + file.filename);
         }
 
         if (errorMsg) {
@@ -39,18 +46,7 @@ module.exports = {
             return;
         }
 
-        let file = req.file;
         articleArgs.imgName = file.filename;
-        let dimensions = size(file.path);
-
-        if (dimensions.width < 600 || dimensions.height < 400) {
-            isResolutionTroublesome = true;
-        }
-
-        if (isResolutionTroublesome) {
-            res.render('article/create', {isResolutionTroublesome: isResolutionTroublesome});
-            return;
-        }
 
         articleArgs.width = dimensions.width;
         articleArgs.height = dimensions.height;
@@ -138,7 +134,7 @@ module.exports = {
                 Category.find({}).then(categories => {
                     article.categories = categories;
                     article.tagNames = article.tags;
-                    res.render('article/edit', article);
+                    res.render('article/edit', {article: article});
                 });
             });
         });
@@ -169,7 +165,8 @@ module.exports = {
         }
 
         if (errorMsg) {
-            res.render('article/edit', {error: errorMsg})
+            articleArgs.id = id;
+            res.render('article/edit', {error: errorMsg, article: articleArgs})
         } else {
             Article.findById(id).populate('category').then(article => {
                 if (article.category.id !== articleArgs.category) {
@@ -278,7 +275,7 @@ module.exports = {
                 res.redirect('/');
                 return;
             }
-            User.findById(user.id).then(currentUser=> {
+            User.findById(user.id).then(currentUser => {
                 if (!currentUser) {
                     res.redirect('/user/login');
                     return;
@@ -338,6 +335,23 @@ module.exports = {
         })
     },
 
+    downloadGet: (req, res) => {
+        let imgName = req.params.imgName;
+
+        Article.findOne({imgName: imgName}).then(article => {
+            if (!article) {
+                res.redirect('/');
+                return;
+            }
+
+            let file = __dirname + '/../public/uploads/' + imgName;
+            res.download(file);
+
+            article.downloads += 1;
+            article.save();
+        })
+    },
+
     upvote: (req, res) => {
         let user = req.user;
         let id = req.params.id;
@@ -348,10 +362,6 @@ module.exports = {
         }
 
         Article.findById(id).then(article => {
-            if (!article) {
-                res.redirect('/');
-                return;
-            }
 
             if (user.upvotedArticles.indexOf(article.id) === -1) {
                 user.upvotedArticles.push(article.id);
@@ -405,6 +415,7 @@ module.exports = {
             user.save();
             article.save();
             res.redirect('/article/details/' + article.id);
+
         })
     }
 };

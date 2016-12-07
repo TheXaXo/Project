@@ -2,6 +2,15 @@
       action="/user/edit/{{user.nickname}}" method="post" enctype="multipart/form-data">
     <fieldset>
         <legend>Edit your profile</legend>
+        {{#if error}}
+            <div style="text-align: center">
+                <div class="alert alert-dismissible alert-danger fade in" style="display: inline-block">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <span class="glyphicon glyphicon-remove-sign" style="margin-right: 4px"></span>
+                    {{error}}
+                </div>
+            </div>
+        {{/if}}
         <div class="form-group">
             <label class="control-label col-sm-4">Picture</label>
             <div class="col-sm-4">
@@ -25,13 +34,15 @@
         <div class="form-group">
             <label class="col-sm-4 control-label" for="inputLocation">Location</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" id="inputLocation" placeholder="Location" name="location" value="{{user.location}}">
+                <input type="text" class="form-control" id="inputLocation" placeholder="Location" name="location"
+                       value="{{user.location}}">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-4 control-label" for="inputDate">Birthdate</label>
             <div class="col-sm-4 ">
-                <input type="date" class="form-control" id="inputDate" placeholder="Birthdate" name="birthdate" required value={{user.birthdate}}>
+                <input type="date" class="form-control" id="inputDate" placeholder="Birthdate" name="birthdate" required
+                       value={{user.birthdate}}>
             </div>
         </div>
         <br>

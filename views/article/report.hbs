@@ -1,6 +1,15 @@
 <form class="form-horizontal" method="POST" action="/article/report/{{article.id}}">
     <fieldset>
         <legend>Report Wallpaper</legend>
+        {{#if error}}
+            <div style="text-align: center">
+                <div class="alert alert-dismissible alert-danger fade in" style="display: inline-block">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <span class="glyphicon glyphicon-remove-sign" style="margin-right: 4px"></span>
+                    {{error}}
+                </div>
+            </div>
+        {{/if}}
         <div class="form-group">
             <label class="col-sm-4 control-label"
                    for="articleReason">Reason</label>

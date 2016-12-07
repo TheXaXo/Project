@@ -1,10 +1,20 @@
 <form class="form-horizontal" method="post" action="/user/register">
     <fieldset>
         <legend>Register</legend>
+        {{#if error}}
+            <div style="text-align: center">
+                <div class="alert alert-dismissible alert-danger fade in" style="display: inline-block">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <span class="glyphicon glyphicon-remove-sign" style="margin-right: 4px"></span>
+                    {{error}}
+                </div>
+            </div>
+        {{/if}}
         <div class="form-group">
             <label class="col-sm-4 control-label" for="inputNickname">Nickname</label>
             <div class="col-sm-4 ">
-                <input type="text" class="form-control" id="inputNickname" placeholder="Nickname" name="nickname" required
+                <input type="text" class="form-control" id="inputNickname" placeholder="Nickname" name="nickname"
+                       required
                        value={{nickname}}>
             </div>
         </div>
@@ -25,13 +35,15 @@
         <div class="form-group">
             <label class="col-sm-4 control-label" for="inputLocation">Location</label>
             <div class="col-sm-4 ">
-                <input type="text" class="form-control" id="inputLocation" placeholder="Location" name="location" value={{location}}>
+                <input type="text" class="form-control" id="inputLocation" placeholder="Location" name="location"
+                       value={{location}}>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-4 control-label" for="inputDate">Birthdate</label>
             <div class="col-sm-4 ">
-                <input type="date" class="form-control" id="inputDate" placeholder="Birthdate" name="birthdate" required value={{birthdate}}>
+                <input type="date" class="form-control" id="inputDate" placeholder="Birthdate" name="birthdate" required
+                       value={{birthdate}}>
             </div>
         </div>
         <br>
