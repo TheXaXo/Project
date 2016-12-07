@@ -14,6 +14,26 @@
                 <span class="glyphicon glyphicon-download" style="margin-right: 4px"></span>Download
             </a>
             {{#if loggedUser}}
+                {{#if isUpvoted}}
+                    <a id="upvote" class="btn btn-success btn-sm" href="/article/upvote/{{article.id}}">
+                        <span class="glyphicon glyphicon-arrow-up" style="margin-right: 4px"></span>
+                    </a>
+                {{/if}}
+                {{#unless isUpvoted}}
+                    <a id="upvote" class="btn btn-primary btn-sm"  href="/article/upvote/{{article.id}}">
+                        <span class="glyphicon glyphicon-arrow-up" style="margin-right: 4px"></span>
+                    </a>
+                {{/unless}}
+                {{#if isDownvoted}}
+                    <a id="downvote" class="btn btn-danger btn-sm"  href="/article/downvote/{{article.id}}">
+                        <span class="glyphicon glyphicon-arrow-down" style="margin-right: 4px"></span>
+                    </a>
+                {{/if}}
+                {{#unless isDownvoted}}
+                    <a id="downvote" class="btn btn-primary btn-sm"  href="/article/downvote/{{article.id}}">
+                        <span class="glyphicon glyphicon-arrow-down" style="margin-right: 4px"></span>
+                    </a>
+                {{/unless}}
                 <a class="btn btn-primary btn-sm"
                    href="/article/report/{{article.id}}">Report</a>
                 {{#if isSaved}}
@@ -51,6 +71,7 @@
         </a>
         <p>Views: {{article.views}}</p>
         <p>Downloads: {{article.downloads}}</p>
+        <p>Rating: {{article.rating}}</p>
         <p>
             {{#each article.tags }}
                 <a class="btn btn-default btn-sm"

@@ -9,7 +9,8 @@ let articleSchema = mongoose.Schema({
     tags: [{type: String, required: true}],
     date: {type: Date, default: Date.now()},
     views: {type: Number, default: 0},
-    downloads: {type: Number, default: 0}
+    downloads: {type: Number, default: 0},
+    rating: {type: Number, default: 0}
 });
 
 articleSchema.method({
@@ -39,11 +40,17 @@ articleSchema.method({
         });
 
         User.find({}).then(users => {
-            for (let user of users){
-                if(user.savedArticles.indexOf(this.id) !== -1){
+            for (let user of users) {
+                if (user.savedArticles.indexOf(this.id) !== -1) {
                     user.savedArticles.remove(this.id);
-                    user.save();
                 }
+
+                if (user.upvotedArticles.indexOf(this.id) !== -1) {
+                    user.upvotedArticles.remove(this.id);
+                } else if (user.downvotedArticles.indexOf(this.id) !== -1) {
+                    user.downvotedArticles.remove(this.id);
+                }
+                user.save();
             }
         });
 

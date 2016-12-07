@@ -46,6 +46,9 @@ module.exports = (app) => {
 
     app.get('/article/save/:id', articleController.saveArticle);
 
+    app.get('/article/upvote/:id', articleController.upvote);
+    app.get('/article/downvote/:id', articleController.downvote);
+
     app.get('/article/report/:id', articleController.reportGet);
     app.post('/article/report/:id', articleController.reportPost);
 
@@ -65,6 +68,8 @@ module.exports = (app) => {
     app.get('/user/details/:nickname', userController.getUserPanel);
 
     app.get('/user/saved/:nickname', userController.displaySaved);
+    app.get('/user/upvoted/:nickname', userController.displayUpvoted);
+
 
     app.get('/tag/:name', tagController.listArticlesByTag);
 

@@ -1,5 +1,6 @@
 const User = require('mongoose').model('User');
 const Role = require('mongoose').model('Role');
+const Article = require('mongoose').model('Article');
 const encryption = require('./../../utilities/encryption');
 var fs = require("fs");
 
@@ -117,7 +118,6 @@ module.exports = {
             if (user.avatar !== 'default.png') {
                 fs.unlink(__dirname + '\\..\\..\\public\\uploads\\' + user.avatar);
             }
-
             user.remove();
         });
         res.redirect('/admin/user/all');

@@ -47,7 +47,7 @@ module.exports = {
             isResolutionTroublesome = true;
         }
 
-        if (isResolutionTroublesome){
+        if (isResolutionTroublesome) {
             res.render('article/create', {isResolutionTroublesome: isResolutionTroublesome});
             return;
         }
@@ -91,10 +91,25 @@ module.exports = {
             if (req.user.savedArticles.indexOf(id) !== -1) {
                 isSaved = true;
             }
+
+            let isUpvoted = false;
+            let isDownvoted = false;
+
+            if (req.user.upvotedArticles.indexOf(id) !== -1) {
+                isUpvoted = true;
+            }
+
+            if (req.user.downvotedArticles.indexOf(id) !== -1) {
+                isDownvoted = true;
+            }
+
             req.user.isInRole('Admin').then(isAdmin => {
                 let isUserAuthorized = isAdmin || req.user.isAuthor(article);
 
-                res.render('article/details', {article: article, isUserAuthorized: isUserAuthorized, isSaved: isSaved});
+                res.render('article/details', {
+                    article: article, isUserAuthorized: isUserAuthorized,
+                    isSaved: isSaved, isUpvoted: isUpvoted, isDownvoted: isDownvoted
+                });
             })
         })
     },
@@ -231,7 +246,7 @@ module.exports = {
         }
 
         Article.findById(id).then(article => {
-            if (!article){
+            if (!article) {
                 res.redirect('/');
                 return;
             }
@@ -320,6 +335,76 @@ module.exports = {
             Report.create(reportArgs).then(report => {
                 res.redirect('/article/details/' + id)
             })
+        })
+    },
+
+    upvote: (req, res) => {
+        let user = req.user;
+        let id = req.params.id;
+
+        if (!user) {
+            res.redirect('/user/login');
+            return;
+        }
+
+        Article.findById(id).then(article => {
+            if (!article) {
+                res.redirect('/');
+                return;
+            }
+
+            if (user.upvotedArticles.indexOf(article.id) === -1) {
+                user.upvotedArticles.push(article.id);
+
+                if (user.downvotedArticles.indexOf(article.id) === -1) {
+                    article.rating += 1;
+                } else if (user.downvotedArticles.indexOf(article.id) !== -1) {
+                    user.downvotedArticles.remove(article.id);
+                    article.rating += 2;
+                }
+            } else if (user.upvotedArticles.indexOf(article.id) !== -1) {
+                article.rating -= 1;
+                user.upvotedArticles.remove(article.id);
+            }
+
+            user.save();
+            article.save();
+            res.redirect('/article/details/' + article.id);
+        })
+    },
+
+    downvote: (req, res) => {
+        let user = req.user;
+        let id = req.params.id;
+
+        if (!user) {
+            res.redirect('/user/login');
+            return;
+        }
+
+        Article.findById(id).then(article => {
+            if (!article) {
+                res.redirect('/');
+                return;
+            }
+
+            if (user.downvotedArticles.indexOf(article.id) === -1) {
+                user.downvotedArticles.push(article.id);
+
+                if (user.upvotedArticles.indexOf(article.id) === -1) {
+                    article.rating -= 1;
+                } else if (user.upvotedArticles.indexOf(article.id) !== -1) {
+                    user.upvotedArticles.remove(article.id);
+                    article.rating -= 2;
+                }
+            } else if (user.downvotedArticles.indexOf(article.id) !== -1) {
+                article.rating += 1;
+                user.downvotedArticles.remove(article.id);
+            }
+
+            user.save();
+            article.save();
+            res.redirect('/article/details/' + article.id);
         })
     }
 };

@@ -15,6 +15,8 @@ let userSchema = mongoose.Schema(
         birthdate: {type: Date, required: true},
         articles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Article'}],
         savedArticles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Article'}],
+        upvotedArticles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Article'}],
+        downvotedArticles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Article'}],
         roles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Role'}],
         salt: {type: String, required: true}
     }
@@ -56,15 +58,29 @@ userSchema.method({
                 role.save();
             })
         }
-
         let Article = mongoose.model('Article');
+
+        for (let article of this.upvotedArticles){
+            Article.findById(article).then(article =>{
+                article.rating -= 1;
+                article.save();
+            })
+        } // scans the upvoted articles and fixes rating accordingly
+
+        for (let article of this.downvotedArticles){
+            Article.findById(article).then(article =>{
+                article.rating += 1;
+                article.save();
+            })
+        } // same
+
         for (let article of this.articles) {
             Article.findById(article).then(article => {
                 fs.unlink(__dirname + '\\..\\public\\uploads\\' + article.imgName);
                 article.prepareDelete();
                 article.remove();
             })
-        }
+        } // scans articles uploaded by the user and deletes them
     }
 });
 
