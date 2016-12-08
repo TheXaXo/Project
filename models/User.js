@@ -60,27 +60,30 @@ userSchema.method({
         }
         let Article = mongoose.model('Article');
 
+        // Scans the upvoted articles and fixes rating accordingly.
         for (let article of this.upvotedArticles){
             Article.findById(article).then(article =>{
                 article.rating -= 1;
                 article.save();
             })
-        } // scans the upvoted articles and fixes rating accordingly
+        }
 
+        // Scans the downvoted articles and fixes rating accordingly.
         for (let article of this.downvotedArticles){
             Article.findById(article).then(article =>{
                 article.rating += 1;
                 article.save();
             })
-        } // same
+        }
 
+        // Scans articles uploaded by the user and deletes them.
         for (let article of this.articles) {
             Article.findById(article).then(article => {
                 fs.unlink(__dirname + '\\..\\public\\uploads\\' + article.imgName);
                 article.prepareDelete();
                 article.remove();
             })
-        } // scans articles uploaded by the user and deletes them
+        }
     }
 });
 

@@ -20,5 +20,7 @@ $(function(){
 		   $('a#sortviews').attr('class', 'btn btn-default active');
 	   } else if (sortParameterFromUrl === 'downloads') {
 		   $('a#sortdownloads').attr('class', 'btn btn-default active');
-	   }
+	   } else if (sortParameterFromUrl === 'rating') {
+           $('a#sortrating').attr('class', 'btn btn-default active');
+       }
 });

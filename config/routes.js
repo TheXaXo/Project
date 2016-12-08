@@ -71,8 +71,10 @@ module.exports = (app) => {
     app.get('/user/details/:nickname', userController.getUserPanel);
 
     app.get('/user/saved/:nickname', userController.displaySaved);
+
     app.get('/user/upvoted/:nickname', userController.displayUpvoted);
 
+    app.get('/user/downvoted/:nickname', userController.displayDownvoted);
 
     app.get('/tag/:name', tagController.listArticlesByTag);
 

@@ -67,6 +67,12 @@ module.exports = {
                         if (a.downloads > b.downloads) return -1;
                         if (a.downloads < b.downloads) return 1;
                     })
+            } else if (currentSort === 'rating') {
+                articles = articles
+                    .sort(function (a, b) {
+                        if (a.rating > b.rating) return -1;
+                        if (a.rating < b.rating) return 1;
+                    })
             } else {
                 articles = articles.reverse();
             }
@@ -74,6 +80,21 @@ module.exports = {
             articles = articles
                 .slice(currentPageInt * 15, currentPageInt * 15 + 15);
 
+            let user = req.user;
+
+            if (user) {
+                User.findById(user.id).then(currentUser => {
+                    if (currentUser) {
+                        for (let article of articles) {
+                            if (currentUser.upvotedArticles.indexOf(article.id) !== -1) {
+                                article.isUpvoted = true;
+                            } else if (currentUser.downvotedArticles.indexOf(article.id) !== -1) {
+                                article.isDownvoted = true;
+                            }
+                        }
+                    }
+                });
+            }
 
             res.render('home/articles', {
                 articles: articles,
@@ -138,7 +159,7 @@ module.exports = {
             }
 
             if (currentResolution !== 'all') {
-                articles = articles.filter(function (article) {
+                articlesToSearch = articlesToSearch.filter(function (article) {
                     return article.width === currentWidth &&
                         article.height === currentHeight;
                 })
@@ -169,12 +190,34 @@ module.exports = {
                         if (a.downloads > b.downloads) return -1;
                         if (a.downloads < b.downloads) return 1;
                     })
+            } else if (currentSort === 'rating') {
+                articlesToSearch = articlesToSearch
+                    .sort(function (a, b) {
+                        if (a.rating > b.rating) return -1;
+                        if (a.rating < b.rating) return 1;
+                    })
             } else {
                 articlesToSearch = articlesToSearch.reverse();
             }
 
             articlesToSearch = articlesToSearch
                 .slice(currentPageInt * 15, currentPageInt * 15 + 15);
+
+            let user = req.user;
+
+            if (user) {
+                User.findById(user.id).then(currentUser => {
+                    if (currentUser) {
+                        for (let article of articles) {
+                            if (currentUser.upvotedArticles.indexOf(article.id) !== -1) {
+                                article.isUpvoted = true;
+                            } else if (currentUser.downvotedArticles.indexOf(article.id) !== -1) {
+                                article.isDownvoted = true;
+                            }
+                        }
+                    }
+                });
+            }
 
             res.render('home/articles', {
                 articles: articlesToSearch,

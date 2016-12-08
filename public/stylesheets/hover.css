@@ -2392,6 +2392,72 @@
   transform: translateY(0);
 }
 
+/* Underline Upvote */
+.hvr-underline-upvote {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+  box-shadow: 0 0 1px transparent;
+  position: relative;
+  overflow: hidden;
+}
+.hvr-underline-upvote:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: orange;
+  height: 4px;
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+}
+.hvr-underline-upvote:hover:before, .hvr-underline-reveal:focus:before, .hvr-underline-reveal:active:before {
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);
+}
+
+/* Underline Downvote */
+.hvr-underline-downvote {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+  box-shadow: 0 0 1px transparent;
+  position: relative;
+  overflow: hidden;
+}
+.hvr-underline-downvote:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: cyan;
+  height: 4px;
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+}
+.hvr-underline-downvote:hover:before, .hvr-underline-reveal:focus:before, .hvr-underline-reveal:active:before {
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);
+}
+
 /* Overline Reveal */
 .hvr-overline-reveal {
   display: inline-block;

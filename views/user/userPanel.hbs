@@ -33,6 +33,12 @@
                             <td>E-Mail</td>
                             <td>{{userProfile.email}}</td>
                         </tr>
+                        <tr>
+                            <td>Edit Profile</td>
+                            <td>
+                                <a class="btn btn-default btn-sm" href="/user/edit/{{userProfile.nickname}}">Edit</a>
+                            </td>
+                        </tr>
                     {{/if}}
                     </tbody>
                 </table>
@@ -53,7 +59,8 @@
         <div>
             <h2 align="center">Uploads</h2>
             <p align="center">See all uploaded wallpapers</p>
-            <p align="center"><a class="btn btn-success btn-md" href="/user/uploads/{{userProfile.nickname}}">Uploads</a></p>
+            <p align="center"><a class="btn btn-danger btn-md"
+                                 href="/user/uploads/{{userProfile.nickname}}">Uploads</a></p>
         </div>
     </div>
     {{#if ownsProfile}}
@@ -61,21 +68,24 @@
             <div>
                 <h2 align="center">Upvoted</h2>
                 <p align="center">See all upvoted wallpapers</p>
-                <p align="center"><a class="btn btn-primary btn-md" href="/user/upvoted/{{userProfile.nickname}}">Upvoted</a></p>
+                <p align="center"><a class="btn btn-warning btn-md" href="/user/upvoted/{{userProfile.nickname}}">Upvoted</a>
+                </p>
+            </div>
+        </div>
+        <div class="col-md-3" style="padding-top: 15px">
+            <div>
+                <h2 align="center">Downvoted</h2>
+                <p align="center">See all downvoted wallpapers</p>
+                <p align="center"><a class="btn btn-info btn-md" href="/user/downvoted/{{userProfile.nickname}}">Downvoted</a>
+                </p>
             </div>
         </div>
         <div class="col-md-3" style="padding-top: 15px">
             <div>
                 <h2 align="center">Saved</h2>
                 <p align="center">See all saved wallpapers</p>
-                <p align="center"><a class="btn btn-warning btn-md" href="/user/saved/{{userProfile.nickname}}">Saved</a></p>
-            </div>
-        </div>
-        <div class="col-md-3" style="padding-top: 15px">
-            <div>
-                <h2 align="center">Edit Profile</h2>
-                <p align="center">Edit your profile</p>
-                <p align="center"><a class="btn btn-danger btn-md" href="/user/edit/{{userProfile.nickname}}">Edit Profile</a></p>
+                <p align="center"><a class="btn btn-success btn-md"
+                                     href="/user/saved/{{userProfile.nickname}}">Saved</a></p>
             </div>
         </div>
     {{/if}}

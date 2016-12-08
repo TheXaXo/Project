@@ -4,50 +4,54 @@
     </a>
 </div>
 <div class="container-fluid" style="margin-bottom: 15px; padding: 0px">
-    <div class="col-md-12">
-        <div class="pull-left">
-            <a class="btn btn-default btn-sm" onClick="history.go(-1); return true"><span
-                    class="glyphicon glyphicon-menu-left" style="margin-right: 4px"></span>Back</a>
-        </div>
+    <div class="col-md-4">
+        <a class="btn btn-default btn-sm" onClick="history.go(-1); return true"><span
+                class="glyphicon glyphicon-menu-left" style="margin-right: 4px"></span>Back</a>
+    </div>
+    <div class="col-md-4">
+        {{#if loggedUser}}
+            {{#if isUpvoted}}
+                <a id="upvote" class="btn btn-success btn-sm" href="/article/upvote/{{article.id}}">
+                    <span class="glyphicon glyphicon-arrow-up" style="margin-right: 4px"></span>Upvoted
+                </a>
+            {{/if}}
+            {{#unless isUpvoted}}
+                <a id="upvote" class="btn btn-primary btn-sm" href="/article/upvote/{{article.id}}">
+                    <span class="glyphicon glyphicon-arrow-up" style="margin-right: 4px"></span>Upvote
+                </a>
+            {{/unless}}
+            {{#if isDownvoted}}
+                <a id="downvote" class="btn btn-info btn-sm" href="/article/downvote/{{article.id}}">
+                    <span class="glyphicon glyphicon-arrow-down" style="margin-right: 4px"></span>Downvoted
+                </a>
+            {{/if}}
+            {{#unless isDownvoted}}
+                <a id="downvote" class="btn btn-primary btn-sm" href="/article/downvote/{{article.id}}">
+                    <span class="glyphicon glyphicon-arrow-down" style="margin-right: 4px"></span>Downvote
+                </a>
+            {{/unless}}
+            {{#if isSaved}}
+                <a class="btn btn-warning btn-sm"
+                   href="/article/save/{{article.id}}">
+                    <span class="glyphicon glyphicon-ok" style="margin-right: 4px"></span>Saved
+                </a>
+            {{/if}}
+            {{#unless isSaved}}
+                <a class="btn btn-primary btn-sm"
+                   href="/article/save/{{article.id}}">
+                    <span class="glyphicon glyphicon-heart-empty" style="margin-right: 4px"></span>Save
+                </a>
+            {{/unless}}
+        {{/if}}
+    </div>
+    <div class="col-md-4">
         <div class="pull-right">
             <a id="download" class="btn btn-default btn-sm" href="/download/{{article.imgName}}">
                 <span class="glyphicon glyphicon-download" style="margin-right: 4px"></span>Download
             </a>
             {{#if loggedUser}}
-                {{#if isUpvoted}}
-                    <a id="upvote" class="btn btn-success btn-sm" href="/article/upvote/{{article.id}}">
-                        <span class="glyphicon glyphicon-arrow-up" style="margin-right: 4px"></span>Upvoted
-                    </a>
-                {{/if}}
-                {{#unless isUpvoted}}
-                    <a id="upvote" class="btn btn-primary btn-sm" href="/article/upvote/{{article.id}}">
-                        <span class="glyphicon glyphicon-arrow-up" style="margin-right: 4px"></span>Upvote
-                    </a>
-                {{/unless}}
-                {{#if isDownvoted}}
-                    <a id="downvote" class="btn btn-danger btn-sm" href="/article/downvote/{{article.id}}">
-                        <span class="glyphicon glyphicon-arrow-down" style="margin-right: 4px"></span>Downvoted
-                    </a>
-                {{/if}}
-                {{#unless isDownvoted}}
-                    <a id="downvote" class="btn btn-primary btn-sm" href="/article/downvote/{{article.id}}">
-                        <span class="glyphicon glyphicon-arrow-down" style="margin-right: 4px"></span>Downvote
-                    </a>
-                {{/unless}}
-                <a class="btn btn-primary btn-sm"
+                <a class="btn btn-default btn-sm"
                    href="/article/report/{{article.id}}">Report</a>
-                {{#if isSaved}}
-                    <a class="btn btn-warning btn-sm"
-                       href="/article/save/{{article.id}}">
-                        <span class="glyphicon glyphicon-ok" style="margin-right: 4px"></span>Saved
-                    </a>
-                {{/if}}
-                {{#unless isSaved}}
-                    <a class="btn btn-primary btn-sm"
-                       href="/article/save/{{article.id}}">
-                        <span class="glyphicon glyphicon-heart-empty" style="margin-right: 4px"></span>Save
-                    </a>
-                {{/unless}}
             {{/if}}
             {{#if isUserAuthorized}}
                 <a class="btn btn-success btn-sm"

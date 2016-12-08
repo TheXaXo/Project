@@ -82,6 +82,12 @@ module.exports = {
                             if (a.downloads > b.downloads) return -1;
                             if (a.downloads < b.downloads) return 1;
                         })
+                } else if (currentSort === 'rating') {
+                    categoryArticles = categoryArticles
+                        .sort(function (a, b) {
+                            if (a.rating > b.rating) return -1;
+                            if (a.rating < b.rating) return 1;
+                        })
                 } else {
                     categoryArticles = categoryArticles.reverse();
                 }
@@ -89,6 +95,21 @@ module.exports = {
                 categoryArticles = categoryArticles
                     .slice(currentPageInt * 15, currentPageInt * 15 + 15);
 
+                let user = req.user;
+
+                if (user) {
+                    User.findById(user.id).then(currentUser => {
+                        if (currentUser) {
+                            for (let article of categoryArticles) {
+                                if (currentUser.upvotedArticles.indexOf(article.id) !== -1) {
+                                    article.isUpvoted = true;
+                                } else if (currentUser.downvotedArticles.indexOf(article.id) !== -1) {
+                                    article.isDownvoted = true;
+                                }
+                            }
+                        }
+                    });
+                }
 
                 res.render('home/articles', {
                     articles: categoryArticles,

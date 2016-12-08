@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <head>
     <title>UberPapers</title>
+    <link rel="icon" href='/icons/favicon.png'>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <link rel='stylesheet' href='/stylesheets/footer.css'/>
     <link rel='stylesheet' href='/stylesheets/hover.css'/>
+    <link rel='stylesheet' href='/stylesheets/scrollToTop.css'/>
     <script src="/javascripts/jquery-1.10.2.js"></script>
     <script src="/javascripts/bootstrap.js"></script>
     <script src="/javascripts/search.js"></script>
     <script src="/javascripts/sorting.js"></script>
     <script src="/javascripts/navbar.js"></script>
+    <script src="/javascripts/scrollToTop.js"></script>
 </head>
 <body background="/background/footer_lodyas.png">
 <div id="wrapper">
@@ -105,6 +108,8 @@
                     </a>
                     <a href="{{currentUrl}}{{symbol}}sort=undefined&page=0&res={{currentResolution}}" id="sortnew"
                        class="btn btn-default">New</a>
+                    <a href="{{currentUrl}}{{symbol}}sort=rating&page=0&res={{currentResolution}}" id="sortrating"
+                       class="btn btn-default">Rating</a>
                     <a href="{{currentUrl}}{{symbol}}sort=downloads&page=0&res={{currentResolution}}" id="sortdownloads"
                        class="btn btn-default">Downloads</a>
                     <a href="{{currentUrl}}{{symbol}}sort=views&page=0&res={{currentResolution}}" id="sortviews"
@@ -200,7 +205,7 @@
         {{/if}}
     </div>
 </div>
-
+<a href="#" class="scrollToTop"></a>
 <div id="footer">
     <div class="container-fluid">
         <p style="float: left">Made with <span class="glyphicon glyphicon-heart" style="color: red"></span> by team
