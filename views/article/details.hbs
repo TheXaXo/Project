@@ -11,7 +11,7 @@
     <div class="col-md-4">
         {{#if loggedUser}}
             {{#if isUpvoted}}
-                <a id="upvote" class="btn btn-success btn-sm" href="/article/upvote/{{article.id}}">
+                <a id="upvote" class="btn btn-warning btn-sm" href="/article/upvote/{{article.id}}">
                     <span class="glyphicon glyphicon-arrow-up" style="margin-right: 4px"></span>Upvoted
                 </a>
             {{/if}}
@@ -31,7 +31,7 @@
                 </a>
             {{/unless}}
             {{#if isSaved}}
-                <a class="btn btn-warning btn-sm"
+                <a class="btn btn-success btn-sm"
                    href="/article/save/{{article.id}}">
                     <span class="glyphicon glyphicon-ok" style="margin-right: 4px"></span>Saved
                 </a>
@@ -75,7 +75,7 @@
         </a>
         <p>Views: {{article.views}}</p>
         <p>Downloads: {{article.downloads}}</p>
-        <p>Rating: {{article.rating}}</p>
+        <p>Rating: <span id="rating">{{article.rating}}</span></p>
         <p>
         <p><span class="glyphicon glyphicon-tags" style="margin-right: 4px"></span>Tags:
             {{#each article.tags }}

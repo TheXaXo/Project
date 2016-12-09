@@ -12,6 +12,7 @@
     <script src="/javascripts/sorting.js"></script>
     <script src="/javascripts/navbar.js"></script>
     <script src="/javascripts/scrollToTop.js"></script>
+    <script src="/javascripts/rating.js"></script>
 </head>
 <body background="/background/footer_lodyas.png">
 <div id="wrapper">
@@ -120,7 +121,7 @@
         <div style="padding-top: 30px">
             <div class="col-md-2" style="text-align: center">
                 <div class="list-group">
-                    {{#each categories}}
+                    {{#each categoriesList}}
                         {{#if this.isChecked}}
                             <a class="list-group-item" href="/category/{{this.id}}"
                                style="color:#F2F2F2; background: slategrey">{{this.name}}

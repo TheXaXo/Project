@@ -415,7 +415,6 @@ module.exports = {
             user.save();
             article.save();
             res.redirect('/article/details/' + article.id);
-
         })
     }
 };

@@ -49,40 +49,9 @@ module.exports = {
                 })
             }
 
-            var pages = [];
-            let articlesCount = articlesToSearch.length;
-            let numberOfPages = Math.ceil(articlesCount / 15);
+            let pages = getPages(currentPageInt, articlesToSearch);
 
-            for (var a = 1; a <= numberOfPages; a++) {
-                if (currentPageInt + 1 === a) {
-                    var page = {text: a, index: a - 1, isSelected: true};
-                } else {
-                    var page = {text: a, index: a - 1, isSelected: false};
-                }
-                pages.push(page);
-            }
-
-            if (currentSort === 'views') {
-                articlesToSearch = articlesToSearch
-                    .sort(function (a, b) {
-                        if (a.views > b.views) return -1;
-                        if (a.views < b.views) return 1;
-                    })
-            } else if (currentSort === 'downloads') {
-                articlesToSearch = articlesToSearch
-                    .sort(function (a, b) {
-                        if (a.downloads > b.downloads) return -1;
-                        if (a.downloads < b.downloads) return 1;
-                    })
-            } else if (currentSort === 'rating') {
-                articlesToSearch = articlesToSearch
-                    .sort(function (a, b) {
-                        if (a.rating > b.rating) return -1;
-                        if (a.rating < b.rating) return 1;
-                    })
-            } else {
-                articlesToSearch = articlesToSearch.reverse();
-            }
+            articlesToSearch = sortByParameter(currentSort, articlesToSearch);
 
             articlesToSearch = articlesToSearch
                 .slice(currentPageInt * 15, currentPageInt * 15 + 15);
@@ -90,17 +59,7 @@ module.exports = {
             let user = req.user;
 
             if (user) {
-                User.findById(user.id).then(currentUser => {
-                    if (currentUser) {
-                        for (let article of articles) {
-                            if (currentUser.upvotedArticles.indexOf(article.id) !== -1) {
-                                article.isUpvoted = true;
-                            } else if (currentUser.downvotedArticles.indexOf(article.id) !== -1) {
-                                article.isDownvoted = true;
-                            }
-                        }
-                    }
-                });
+                articlesToSearch = highlight(user, articlesToSearch);
             }
 
             res.render('home/articles', {
@@ -121,3 +80,59 @@ module.exports = {
         });
     }
 };
+
+function sortByParameter(currentSort, articlesToSearch) {
+    if (currentSort === 'views') {
+        return articlesToSearch = articlesToSearch
+            .sort(function (a, b) {
+                if (a.views > b.views) return -1;
+                if (a.views < b.views) return 1;
+            })
+    } else if (currentSort === 'downloads') {
+        return articlesToSearch = articlesToSearch
+            .sort(function (a, b) {
+                if (a.downloads > b.downloads) return -1;
+                if (a.downloads < b.downloads) return 1;
+            })
+    } else if (currentSort === 'rating') {
+        return articlesToSearch = articlesToSearch
+            .sort(function (a, b) {
+                if (a.rating > b.rating) return -1;
+                if (a.rating < b.rating) return 1;
+            })
+    } else {
+        return articlesToSearch = articlesToSearch.reverse();
+    }
+}
+
+function highlight(user, articlesToSearch) {
+    User.findById(user.id).then(currentUser => {
+        if (currentUser) {
+            for (let article of articlesToSearch) {
+                if (currentUser.upvotedArticles.indexOf(article.id) !== -1) {
+                    article.isUpvoted = true;
+                } else if (currentUser.downvotedArticles.indexOf(article.id) !== -1) {
+                    article.isDownvoted = true;
+                }
+            }
+        }
+    });
+    return articlesToSearch;
+}
+
+function getPages(currentPageInt, articlesToSearch) {
+    let articlesCount = articlesToSearch.length;
+    let numberOfPages = Math.ceil(articlesCount / 15);
+
+    var pages = [];
+
+    for (var a = 1; a <= numberOfPages; a++) {
+        if (currentPageInt + 1 === a) {
+            var page = {text: a, index: a - 1, isSelected: true};
+        } else {
+            var page = {text: a, index: a - 1, isSelected: false};
+        }
+        pages.push(page);
+    }
+    return pages;
+}

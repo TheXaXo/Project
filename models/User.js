@@ -61,16 +61,16 @@ userSchema.method({
         let Article = mongoose.model('Article');
 
         // Scans the upvoted articles and fixes rating accordingly.
-        for (let article of this.upvotedArticles){
-            Article.findById(article).then(article =>{
+        for (let article of this.upvotedArticles) {
+            Article.findById(article).then(article => {
                 article.rating -= 1;
                 article.save();
             })
         }
 
         // Scans the downvoted articles and fixes rating accordingly.
-        for (let article of this.downvotedArticles){
-            Article.findById(article).then(article =>{
+        for (let article of this.downvotedArticles) {
+            Article.findById(article).then(article => {
                 article.rating += 1;
                 article.save();
             })

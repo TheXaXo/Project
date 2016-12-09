@@ -1,8 +1,7 @@
 <div style="text-align: center">
     {{#each articles}}
-        <div class="col-md-4 {{#if this.isUpvoted}} hvr-underline-upvote {{/if}} {{#if this.isDownvoted}} hvr-underline-downvote {{/if}} {{#unless
-                this.isUpvoted}} hvr-underline-reveal {{/unless}} {{#unless
-                this.isDownvoted}} hvr-underline-reveal {{/unless}}"
+        <div class="col-md-4 hvr-underline-reveal {{#if this.isUpvoted}}hvr-underline-upvote{{/if}}
+            {{#if this.isDownvoted}}hvr-underline-downvote{{/if}}"
              style="width: 310px; display: inline-block; background-color: rgba(17, 17, 17, 0.5); padding: 0;
                      border-radius:2px; float: none; margin: 5px">
             <a href="/article/details/{{this.id}}">

@@ -1,14 +1,18 @@
-.scrollToTop{
-  display: none;
-	width: 50px;
-	height: 50px;
-	text-indent: -9999px;
-	position: fixed;
-	z-index: 999;
-	right: 7%;
-	bottom: 10%;
-	background: rgb(50, 56, 62) url("/icons/up-arrow.png") no-repeat center 43%;
-	-webkit-border-radius: 30px;
-	-moz-border-radius: 30px;
-	border-radius: 30px;
+.scrollToTop {
+    display: none;
+    width: 50px;
+    height: 50px;
+    text-indent: -9999px;
+    position: fixed;
+    z-index: 999;
+    right: 7%;
+    bottom: 10%;
+    background: rgb(50, 56, 62) url("/icons/up-arrow.png") no-repeat center 43%;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+}
+
+.scrollToTop:hover {
+    background: slategray url("/icons/up-arrow.png") no-repeat center 43%;
 }

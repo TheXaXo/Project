@@ -57,7 +57,7 @@ module.exports = (app, config) => {
                     for (let category of categories) {
                         category.articlesCount = category.articles.length;
                     }
-                    app.locals.categories = categories;
+                    app.locals.categoriesList = categories;
                 }
             });
 
