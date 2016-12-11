@@ -17,6 +17,9 @@ let userSchema = mongoose.Schema(
         savedArticles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Article'}],
         upvotedArticles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Article'}],
         downvotedArticles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Article'}],
+        upvotedComments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
+        downvotedComments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
+        comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
         roles: [{type: mongoose.Schema.Types.ObjectId, ref: 'Role'}],
         salt: {type: String, required: true}
     }
@@ -82,6 +85,29 @@ userSchema.method({
                 fs.unlink(__dirname + '\\..\\public\\uploads\\' + article.imgName);
                 article.prepareDelete();
                 article.remove();
+            })
+        }
+
+        let Comment = mongoose.model('Comment');
+
+        for (let upvotedComment of this.upvotedComments) {
+            Comment.findById(upvotedComment).then(comment => {
+                comment.upvotes.remove(this.id);
+                comment.save();
+            })
+        }
+
+        for (let downvotedComment of this.downvotedComments) {
+            Comment.findById(downvotedComment).then(comment => {
+                comment.downvotes.remove(this.id);
+                comment.save();
+            })
+        }
+
+        for (let comment of this.comments) {
+            Comment.findById(comment).then(comment => {
+                comment.prepareDelete();
+                comment.remove();
             })
         }
     }

@@ -75,7 +75,7 @@
         </a>
         <p>Views: {{article.views}}</p>
         <p>Downloads: {{article.downloads}}</p>
-        <p>Rating: <span id="rating">{{article.rating}}</span></p>
+        <p>Rating: <span id="wallpaperRating">{{article.rating}}</span></p>
         <p>
         <p><span class="glyphicon glyphicon-tags" style="margin-right: 4px"></span>Tags:
             {{#each article.tags }}
@@ -84,4 +84,56 @@
             {{/each}}
         </p>
     </div>
+</div>
+
+<legend>Comments</legend>
+<div class="row" style="margin: 20px">
+    <div class="pull-left">
+        <a href="{{currentUrl}}?sort=rating" class="btn btn-default" id="ratingSort">Top</a>
+        <a href="{{currentUrl}}?sort=new" class="btn btn-default" id="newSort">New</a>
+    </div>
+    {{#if loggedUser}}
+        <div class="pull-right">
+            <a href="/comment/create/{{article.id}}" class="btn btn-warning">Create New</a>
+        </div>
+    {{/if}}
+</div>
+<div style="padding: 10px">
+    {{#each comments}}
+        <div class="row">
+            <div class="col-sm-1">
+                <a href="/user/details/{{this.author.nickname}}">
+                    <img src="/uploads/{{this.author.avatar}}" class="img-circle" alt="Profile picture" width="50px"
+                         height="50px" style="margin-bottom: 10px">
+                </a>
+            </div>
+
+            <div class="col-sm-7">
+                <div class="panel panel-default {{#if this.isMarked}} panel-info {{/if}}">
+                    <div class="panel-heading">
+                        <strong><a href="/user/details/{{this.author.nickname}}">{{this.author.nickname}}</a></strong>
+                        <span class="text-muted">posted on {{this.dateString}}</span>
+                        <div class="pull-right">
+                            <span class="commentRating">{{this.rating}}</span>
+                            {{#if ../loggedUser}}
+                                <a href="/comment/upvote/{{this.id}}"><span
+                                        class="glyphicon glyphicon-arrow-up commentUpvote"
+                                        style="{{#if this.isUpvoted}}color: orange{{/if}}"></span></a>
+                                <a href="/comment/downvote/{{this.id}}"><span
+                                        class="glyphicon glyphicon-arrow-down commentDownvote"
+                                        style="{{#if this.isDownvoted}}color: cyan{{/if}}"></span></a>
+                            {{/if}}
+                            {{#if this.isAuthorizedToDelete}}
+                                <a href="/comment/delete/{{this.id}}"><span
+                                        class="glyphicon glyphicon-remove commentDelete"></span></a>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        {{this.content}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/each}}
 </div>

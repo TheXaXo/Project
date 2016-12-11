@@ -1,0 +1,11 @@
+.commentUpvote:hover{
+    color: orange
+}
+
+.commentDownvote:hover{
+  color: cyan
+}
+
+.commentDelete:hover{
+  color: red
+}

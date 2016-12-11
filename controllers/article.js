@@ -1,10 +1,12 @@
 const size = require('image-size');
 var path = require('path');
-const fs = require("fs");
+const fs = require('fs');
 const Article = require('mongoose').model('Article');
 const Category = require('mongoose').model('Category');
 const User = require('mongoose').model('User');
 const Report = require('mongoose').model('Report');
+const Comment = require('mongoose').model('Comment');
+const dateFormat = require('dateformat');
 
 module.exports = {
     createGet: (req, res) => {
@@ -68,6 +70,11 @@ module.exports = {
     details: (req, res) => {
         let id = req.params.id;
 
+        let currentSort = req.query.sort;
+        if (!currentSort) {
+            currentSort = 'rating'
+        }
+
         // Yes, it's a valid ObjectId, proceed with `findById` call.
         if (!id.match(/^[0-9a-fA-F]{24}$/)) {
             res.redirect('/');
@@ -78,8 +85,52 @@ module.exports = {
             article.views += 1;
             article.save();
 
+            let articleComments = [];
+
+            Comment.find({}).populate('user').then(allComments => {
+                for (let comment of allComments) {
+                    if (article.comments.indexOf(comment.id) !== -1) {
+
+                        comment.author = comment.user;
+                        comment.rating = comment.upvotes.length - comment.downvotes.length;
+                        comment.dateString = dateFormat(comment.date, "mm/dd/yyyy HH:MM:ss");
+
+                        if (comment.author.id === article.author.id) {
+                            comment.isMarked = true;
+                        }
+
+                        if (req.user) {
+                            req.user.isInRole('Admin').then(isAdmin => {
+                                if (isAdmin || comment.user.id === req.user.id) {
+                                    comment.isAuthorizedToDelete = true;
+                                }
+                            });
+
+                            if (req.user.upvotedComments.indexOf(comment.id) !== -1) {
+                                comment.isUpvoted = true;
+                            } else if (req.user.downvotedComments.indexOf(comment.id) !== -1) {
+                                comment.isDownvoted = true;
+                            }
+                        }
+
+                        articleComments.push(comment);
+                    }
+                }
+
+                if (currentSort === 'rating') {
+                    articleComments = articleComments
+                        .sort(function (a, b) {
+                            if (a.rating > b.rating) return -1;
+                            if (a.rating < b.rating) return 1;
+                        });
+                } else {
+                    articleComments = articleComments
+                        .reverse();
+                }
+            });
+
             if (!req.user) {
-                res.render('article/details', {article: article, isUserAuthorized: false});
+                res.render('article/details', {article: article, isUserAuthorized: false, comments: articleComments});
                 return;
             }
 
@@ -104,7 +155,8 @@ module.exports = {
 
                 res.render('article/details', {
                     article: article, isUserAuthorized: isUserAuthorized,
-                    isSaved: isSaved, isUpvoted: isUpvoted, isDownvoted: isDownvoted
+                    isSaved: isSaved, isUpvoted: isUpvoted, isDownvoted: isDownvoted,
+                    comments: articleComments
                 });
             })
         })

@@ -73,7 +73,7 @@ module.exports = (app, config) => {
                         }
                     })
                 }
-                app.locals.categories = categories;
+                app.locals.categoriesList = categories;
             });
         }
         next();

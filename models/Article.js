@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 let articleSchema = mongoose.Schema({
     author: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
     category: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Category'},
+    comments: [{type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Comment'}],
     imgName: {type: String, required: true},
     width: {type: Number, required: true},
     height: {type: Number, required: true},
@@ -59,6 +60,14 @@ articleSchema.method({
             if (category) {
                 category.articles.remove(this.id);
                 category.save();
+            }
+        });
+
+        let Comment = mongoose.model('Comment');
+        Comment.find({}).then(allComments => {
+            for (let currentComment of allComments) {
+                currentComment.prepareDelete();
+                currentComment.remove();
             }
         });
     }

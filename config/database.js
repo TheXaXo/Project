@@ -20,4 +20,5 @@ module.exports = (config) => {
     require('./../models/Category');
     require('./../models/Resolution');
     require('./../models/Report');
+    require('./../models/Comment');
 };

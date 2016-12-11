@@ -20,6 +20,7 @@
     "multer": "latest",
     "express-fileupload": "latest",
     "image-size": "latest",
-    "handlebars": "latest"
+    "handlebars": "latest",
+    "dateformat": "latest"
   }
 }

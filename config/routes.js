@@ -6,6 +6,7 @@ const categoryController = require('./../controllers/category');
 const adminController = require('./../controllers/admin/admin');
 const articleController = require('./../controllers/article');
 const tagController = require('./../controllers/tag');
+const commentController = require('./../controllers/comment');
 
 module.exports = (app) => {
     app.get('/', homeController.index);
@@ -77,6 +78,14 @@ module.exports = (app) => {
     app.get('/user/downvoted/:nickname', userController.displayDownvoted);
 
     app.get('/tag/:name', tagController.listArticlesByTag);
+
+    app.get('/comment/create/:id', commentController.createGet);
+    app.post('/comment/create/:id', commentController.createPost);
+
+    app.get('/comment/upvote/:id', commentController.upvote);
+    app.get('/comment/downvote/:id', commentController.downvote);
+
+    app.get('/comment/delete/:id', commentController.delete);
 
     app.use((req, res, next) => {
         if (req.isAuthenticated()) {

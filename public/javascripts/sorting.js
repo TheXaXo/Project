@@ -1,5 +1,5 @@
 $(function(){
-    
+
 	   var sortParameterFromUrl = null;
        var queryFromUrl = window.location.search.substring(1);
        var vars = queryFromUrl.split("&");
@@ -13,7 +13,7 @@ $(function(){
 		if (sortParameterFromUrl === null) {
 		   sortParameterFromUrl = 'undefined';
 	   }
-		
+
 	   if (sortParameterFromUrl === 'undefined') {
 		   $('a#sortnew').attr('class', 'btn btn-default active');
 	   } else if (sortParameterFromUrl === 'views') {
@@ -22,5 +22,5 @@ $(function(){
 		   $('a#sortdownloads').attr('class', 'btn btn-default active');
 	   } else if (sortParameterFromUrl === 'rating') {
            $('a#sortrating').attr('class', 'btn btn-default active');
-       }
+     }
 });

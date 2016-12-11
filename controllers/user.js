@@ -3,7 +3,8 @@ const Article = require('mongoose').model('Article');
 const Role = require('mongoose').model('Role');
 const encryption = require('./../utilities/encryption');
 const size = require('image-size');
-var fs = require("fs");
+var fs = require('fs');
+const dateFormat = require('dateformat');
 
 module.exports = {
     registerGet: (req, res) => {
@@ -121,6 +122,8 @@ module.exports = {
                 if (req.user && req.user.nickname === userProfile.nickname) {
                     ownsProfile = true;
                 }
+
+                userProfile.birthdateString = dateFormat(userProfile.birthdate, "mm/dd/yyyy");
                 res.render('user/userPanel', {userProfile: userProfile, ownsProfile: ownsProfile});
             } else {
                 res.redirect('/')
@@ -142,6 +145,7 @@ module.exports = {
         if (user.nickname === profileNickname) {
             User.findById(id).then(user => {
                 if (user) {
+                    user.birthdateString = dateFormat(user.birthdate, "yyyy-mm-dd h:MM:ss");
                     res.render('user/edit', {user: user});
                 }
             })
@@ -163,7 +167,10 @@ module.exports = {
         let id = user.id;
         let profileNickname = req.params.nickname;
         let file = req.file;
-        let dimensions = size(file.path);
+        let dimensions = null;
+        if (file) {
+            dimensions = size(file.path)
+        }
         let errorMsg = '';
 
         if (user.nickname === profileNickname) {
@@ -174,15 +181,16 @@ module.exports = {
                 } else if (editArgs.password !== editArgs.confirmedPassword) {
                     errorMsg = 'Passwords do not match!';
                     fs.unlink(__dirname + '\\..\\public\\uploads\\' + file.filename);
-                } else if (dimensions.width < 60 && dimensions.height < 40) {
+                } else if (dimensions && (dimensions.width < 60 && dimensions.height < 40)) {
                     errorMsg = 'Image too small!';
                     fs.unlink(__dirname + '\\..\\public\\uploads\\' + file.filename);
-                } else if (dimensions.width > 5000 && dimensions.height > 5000) {
+                } else if (dimensions && (dimensions.width > 5000 && dimensions.height > 5000)) {
                     errorMsg = 'Image too big!';
                     fs.unlink(__dirname + '\\..\\public\\uploads\\' + file.filename);
                 }
 
                 if (errorMsg) {
+                    user.birthdateString = dateFormat(user.birthdate, "yyyy-mm-dd h:MM:ss");
                     res.render('user/edit', {error: errorMsg, user: user});
                     return;
                 }
