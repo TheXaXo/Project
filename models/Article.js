@@ -64,12 +64,12 @@ articleSchema.method({
         });
 
         let Comment = mongoose.model('Comment');
-        Comment.find({}).then(allComments => {
-            for (let currentComment of allComments) {
+        for (let comment of this.comments) {
+            Comment.findById(comment).then(currentComment => {
                 currentComment.prepareDelete();
                 currentComment.remove();
-            }
-        });
+            })
+        }
     }
 });
 

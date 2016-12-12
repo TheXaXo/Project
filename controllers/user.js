@@ -1,6 +1,7 @@
 const User = require('mongoose').model('User');
 const Article = require('mongoose').model('Article');
 const Role = require('mongoose').model('Role');
+const Comment = require('mongoose').model('Comment');
 const encryption = require('./../utilities/encryption');
 const size = require('image-size');
 var fs = require('fs');
@@ -123,8 +124,29 @@ module.exports = {
                     ownsProfile = true;
                 }
 
+                let articleRating = 0;
+                let commentRating = 0;
+
+                for (let article of userProfile.articles) {
+                    Article.findById(article).then(currentArticle => {
+                        articleRating += currentArticle.rating;
+                        userProfile.articleRating = articleRating;
+                    })
+                }
+
+                for (let comment of userProfile.comments) {
+                    Comment.findById(comment).then(currentComment => {
+                        commentRating += (currentComment.upvotes.length - currentComment.downvotes.length);
+                        userProfile.commentRating = commentRating;
+                    })
+                }
+
                 userProfile.birthdateString = dateFormat(userProfile.birthdate, "mm/dd/yyyy");
-                res.render('user/userPanel', {userProfile: userProfile, ownsProfile: ownsProfile});
+
+                res.render('user/userPanel', {
+                    userProfile: userProfile,
+                    ownsProfile: ownsProfile
+                });
             } else {
                 res.redirect('/')
             }
@@ -166,21 +188,155 @@ module.exports = {
 
         let id = user.id;
         let profileNickname = req.params.nickname;
-        let file = req.file;
-        let dimensions = null;
-        if (file) {
-            dimensions = size(file.path)
-        }
+
         let errorMsg = '';
 
         if (user.nickname === profileNickname) {
             User.findById(id).then(user => {
                 if (!editArgs.fullName) {
                     errorMsg = 'Name cannot be null!';
-                    fs.unlink(__dirname + '\\..\\public\\uploads\\' + file.filename);
+                }
+
+                if (errorMsg) {
+                    user.birthdateString = dateFormat(user.birthdate, "yyyy-mm-dd h:MM:ss");
+                    res.render('user/edit', {error: errorMsg, user: user});
+                    return;
+                }
+
+                user.aboutme = req.body.aboutme;
+                user.fullName = req.body.fullName;
+                user.birthdate = req.body.birthdate;
+                user.location = req.body.location;
+
+                user.save((err) => {
+                    if (err) {
+                        res.redirect('/');
+                    } else {
+                        res.redirect('/user/details/' + user.nickname);
+                    }
+                })
+            })
+
+        } else {
+            res.redirect('/');
+        }
+    },
+
+    passwordEditGet: (req, res) => {
+        let user = req.user;
+
+        if (!user) {
+            res.redirect('/');
+            return;
+        }
+
+        let id = req.user.id;
+        let profileNickname = req.params.nickname;
+
+        if (user.nickname === profileNickname) {
+            User.findById(id).then(user => {
+                if (user) {
+                    res.render('user/passwordEdit', {user: user});
+                }
+            })
+
+        } else {
+            res.redirect('/');
+        }
+    },
+
+    passwordEditPost: (req, res) => {
+        let editArgs = req.body;
+        let user = req.user;
+
+        if (!user) {
+            res.redirect('/');
+            return;
+        }
+
+        let id = user.id;
+        let profileNickname = req.params.nickname;
+
+        let errorMsg = '';
+
+        if (user.nickname === profileNickname) {
+            User.findById(id).then(user => {
+                if (!editArgs.password) {
+                    errorMsg = 'Please enter new password!';
                 } else if (editArgs.password !== editArgs.confirmedPassword) {
                     errorMsg = 'Passwords do not match!';
-                    fs.unlink(__dirname + '\\..\\public\\uploads\\' + file.filename);
+                }
+
+                if (errorMsg) {
+                    res.render('user/passwordEdit', {error: errorMsg, user: user});
+                    return;
+                }
+
+                let passwordHash = user.passwordHash;
+                passwordHash = encryption.hashPassword(editArgs.password, user.salt);
+
+                user.passwordHash = passwordHash;
+
+                user.save((err) => {
+                    if (err) {
+                        res.redirect('/');
+                    } else {
+                        res.redirect('/user/details/' + user.nickname);
+                    }
+                })
+            })
+
+        } else {
+            res.redirect('/');
+        }
+    },
+
+    avatarEditGet: (req, res) => {
+        let user = req.user;
+
+        if (!user) {
+            res.redirect('/');
+            return;
+        }
+
+        let id = req.user.id;
+        let profileNickname = req.params.nickname;
+
+        if (user.nickname === profileNickname) {
+            User.findById(id).then(user => {
+                if (user) {
+                    res.render('user/editAvatar', {user: user});
+                }
+            })
+
+        } else {
+            res.redirect('/');
+        }
+    },
+
+    avatarEditPost: (req, res) => {
+        let user = req.user;
+
+        if (!user) {
+            res.redirect('/');
+            return;
+        }
+
+        let id = user.id;
+        let profileNickname = req.params.nickname;
+
+        let file = req.file;
+        let dimensions = null;
+        if (file) {
+            dimensions = size(file.path)
+        }
+
+        let errorMsg = '';
+
+        if (user.nickname === profileNickname) {
+            User.findById(id).then(user => {
+                if (!file) {
+                    errorMsg = 'Please upload an image!';
                 } else if (dimensions && (dimensions.width < 60 && dimensions.height < 40)) {
                     errorMsg = 'Image too small!';
                     fs.unlink(__dirname + '\\..\\public\\uploads\\' + file.filename);
@@ -190,28 +346,15 @@ module.exports = {
                 }
 
                 if (errorMsg) {
-                    user.birthdateString = dateFormat(user.birthdate, "yyyy-mm-dd h:MM:ss");
-                    res.render('user/edit', {error: errorMsg, user: user});
+                    res.render('user/editAvatar', {error: errorMsg, user: user});
                     return;
                 }
 
-                if (file) {
-                    if (user.avatar !== 'default.png') {
-                        fs.unlink(__dirname + '\\..\\public\\uploads\\' + user.avatar);
-                    }
-                    user.avatar = file.filename;
-                }
-                user.aboutme = req.body.aboutme;
-                user.fullName = req.body.fullName;
-                user.birthdate = req.body.birthdate;
-                user.location = req.body.location;
-
-                let passwordHash = user.passwordHash;
-                if (editArgs.password) {
-                    passwordHash = encryption.hashPassword(editArgs.password, user.salt);
+                if (user.avatar !== 'default.png') {
+                    fs.unlink(__dirname + '\\..\\public\\uploads\\' + user.avatar);
                 }
 
-                user.passwordHash = passwordHash;
+                user.avatar = file.filename;
 
                 user.save((err) => {
                     if (err) {

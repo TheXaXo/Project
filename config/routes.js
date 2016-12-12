@@ -65,7 +65,13 @@ module.exports = (app) => {
     app.get('/user/logout', userController.logout);
 
     app.get('/user/edit/:nickname', userController.editGet);
-    app.post('/user/edit/:nickname', upload.single('photo'), userController.editPost);
+    app.post('/user/edit/:nickname', userController.editPost);
+
+    app.get('/user/password/edit/:nickname', userController.passwordEditGet);
+    app.post('/user/password/edit/:nickname', userController.passwordEditPost);
+
+    app.get('/user/avatar/edit/:nickname', userController.avatarEditGet);
+    app.post('/user/avatar/edit/:nickname', upload.single('photo'), userController.avatarEditPost);
 
     app.get('/user/uploads/:nickname', userController.uploads);
 

@@ -1,0 +1,27 @@
+<form class="form-horizontal"
+      action="/user/avatar/edit/{{user.nickname}}" method="post" enctype="multipart/form-data">
+    <fieldset>
+        <legend>Change your avatar</legend>
+        {{#if error}}
+            <div style="text-align: center">
+                <div class="alert alert-dismissible alert-danger fade in" style="display: inline-block">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <span class="glyphicon glyphicon-remove-sign" style="margin-right: 4px"></span>
+                    {{error}}
+                </div>
+            </div>
+        {{/if}}
+        <div class="form-group">
+            <label class="control-label col-sm-4">Picture</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="file" name="photo">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-4">
+                <a class="btn btn-default" href="/user/details/{{user.nickname}}">Cancel</a>
+                <button type="submit" class="btn btn-success">Change</button>
+            </div>
+        </div>
+    </fieldset>
+</form>

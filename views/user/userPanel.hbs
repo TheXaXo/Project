@@ -24,6 +24,18 @@
                         <td>Uploads</td>
                         <td>{{userProfile.articles.length}}</td>
                     </tr>
+                    <tr>
+                        <td>Wallpapers Rating</td>
+                        <td>
+                            <span id="wallpaperRating">{{userProfile.articleRating}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Comments Rating</td>
+                        <td>
+                            <span id="commentRating">{{userProfile.commentRating}}</span>
+                        </td>
+                    </tr>
                     {{#if ownsProfile}}
                         <tr>
                             <td>Birthdate</td>
@@ -33,19 +45,23 @@
                             <td>E-Mail</td>
                             <td>{{userProfile.email}}</td>
                         </tr>
-                        <tr>
-                            <td>Edit Profile</td>
-                            <td>
-                                <a class="btn btn-default btn-sm" href="/user/edit/{{userProfile.nickname}}">Edit
-                                    Profile</a>
-                            </td>
-                        </tr>
                     {{/if}}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+    {{#if ownsProfile}}
+        <div class="col-md-12">
+            <div class="pull-right">
+                <a class="btn btn-default btn-md" href="/user/avatar/edit/{{userProfile.nickname}}">Change Avatar</a>
+                <a class="btn btn-default btn-md" href="/user/password/edit/{{userProfile.nickname}}">Change
+                    Password</a>
+                <a class="btn btn-default btn-md" href="/user/edit/{{userProfile.nickname}}">Edit
+                    Profile</a>
+            </div>
+        </div>
+    {{/if}}
     <div class="col-md-12" style="padding:15px">
         <div align="left" class="panel panel-primary" style="margin-bottom: 0px">
             <div class="panel-heading">

@@ -117,6 +117,8 @@ module.exports = {
                     }
                 }
 
+                article.commentsCount = articleComments.length;
+
                 if (currentSort === 'rating') {
                     articleComments = articleComments
                         .sort(function (a, b) {
@@ -130,7 +132,11 @@ module.exports = {
             });
 
             if (!req.user) {
-                res.render('article/details', {article: article, isUserAuthorized: false, comments: articleComments});
+                res.render('article/details', {
+                    article: article,
+                    isUserAuthorized: false,
+                    comments: articleComments
+                });
                 return;
             }
 

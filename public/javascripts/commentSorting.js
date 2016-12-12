@@ -1,6 +1,6 @@
 $(function(){
 
-	   var sortParameterFromUrl = null;
+	     var sortParameterFromUrl = null;
        var queryFromUrl = window.location.search.substring(1);
        var vars = queryFromUrl.split("&");
        for (var i=0;i<vars.length;i++) {
