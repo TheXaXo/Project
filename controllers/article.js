@@ -223,8 +223,12 @@ module.exports = {
         }
 
         if (errorMsg) {
-            articleArgs.id = id;
-            res.render('article/edit', {error: errorMsg, article: articleArgs})
+            Article.findById(id).then(article => {
+                Category.find({}).then(categories => {
+                    article.categories = categories;
+                    res.render('article/edit', {error: errorMsg, article: article})
+                })
+            })
         } else {
             Article.findById(id).populate('category').then(article => {
                 if (article.category.id !== articleArgs.category) {

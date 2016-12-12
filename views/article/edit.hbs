@@ -15,7 +15,7 @@
                    for="select">Category</label>
             <div class="col-sm-4">
                 <select class="form-control" id="select" name="category">
-                    {{#each categories}}
+                    {{#each article.categories}}
                         <option value="{{this.id}}">{{this.name}}</option>
                     {{/each}}
                 </select>
