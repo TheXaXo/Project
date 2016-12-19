@@ -6,40 +6,40 @@
 <div class="container-fluid" style="margin-bottom: 15px; padding: 0px">
     <div class="col-md-4">
         <a class="btn btn-default btn-sm" onClick="history.go(-1); return true"><span
-                class="glyphicon glyphicon-menu-left" style="margin-right: 4px"></span>Back</a>
+                class="glyphicon glyphicon-menu-left"></span> Back</a>
     </div>
     <div class="col-md-4">
         {{#if loggedUser}}
             {{#if isUpvoted}}
                 <a id="upvote" class="btn btn-warning btn-sm" href="/article/upvote/{{article.id}}">
-                    <span class="glyphicon glyphicon-arrow-up" style="margin-right: 4px"></span>Upvoted
+                    <span class="glyphicon glyphicon-thumbs-up"></span> Upvoted
                 </a>
             {{/if}}
             {{#unless isUpvoted}}
                 <a id="upvote" class="btn btn-primary btn-sm" href="/article/upvote/{{article.id}}">
-                    <span class="glyphicon glyphicon-arrow-up" style="margin-right: 4px"></span>Upvote
+                    <span class="glyphicon glyphicon-thumbs-up"></span> Upvote
                 </a>
             {{/unless}}
             {{#if isDownvoted}}
                 <a id="downvote" class="btn btn-info btn-sm" href="/article/downvote/{{article.id}}">
-                    <span class="glyphicon glyphicon-arrow-down" style="margin-right: 4px"></span>Downvoted
+                    <span class="glyphicon glyphicon-thumbs-down"></span> Downvoted
                 </a>
             {{/if}}
             {{#unless isDownvoted}}
                 <a id="downvote" class="btn btn-primary btn-sm" href="/article/downvote/{{article.id}}">
-                    <span class="glyphicon glyphicon-arrow-down" style="margin-right: 4px"></span>Downvote
+                    <span class="glyphicon glyphicon-thumbs-down"></span> Downvote
                 </a>
             {{/unless}}
             {{#if isSaved}}
                 <a class="btn btn-success btn-sm"
                    href="/article/save/{{article.id}}">
-                    <span class="glyphicon glyphicon-ok" style="margin-right: 4px"></span>Saved
+                    <span class="glyphicon glyphicon-ok"></span> Saved
                 </a>
             {{/if}}
             {{#unless isSaved}}
                 <a class="btn btn-primary btn-sm"
                    href="/article/save/{{article.id}}">
-                    <span class="glyphicon glyphicon-heart-empty" style="margin-right: 4px"></span>Save
+                    <span class="glyphicon glyphicon-heart-empty"></span> Save
                 </a>
             {{/unless}}
         {{/if}}
@@ -47,7 +47,7 @@
     <div class="col-md-4">
         <div class="pull-right">
             <a id="download" class="btn btn-default btn-sm" href="/download/{{article.imgName}}">
-                <span class="glyphicon glyphicon-download" style="margin-right: 4px"></span>Download
+                <span class="glyphicon glyphicon-download"></span> Download
             </a>
             {{#if loggedUser}}
                 <a class="btn btn-default btn-sm"
@@ -56,11 +56,11 @@
             {{#if isUserAuthorized}}
                 <a class="btn btn-success btn-sm"
                    href="/article/edit/{{article.id}}">
-                    <span class="glyphicon glyphicon-edit" style="margin-right: 4px"></span>Edit
+                    <span class="glyphicon glyphicon-edit"></span> Edit
                 </a>
                 <a class="btn btn-danger btn-sm"
                    href="/article/delete/{{article.id}}">
-                    <span class="glyphicon glyphicon-trash" style="margin-right: 4px"></span>Delete
+                    <span class="glyphicon glyphicon-trash"></span> Delete
                 </a>
             {{/if}}
         </div>
@@ -71,13 +71,13 @@
         <a href="/user/details/{{article.author.nickname}}">
             <img src="/uploads/{{article.author.avatar}}" class="img-circle" alt="Profile picture" width="40px"
                  height="40px" style="margin-bottom: 10px">
-            {{article.author.fullName}}
+            {{article.author.nickname}}
         </a>
         <p>Views: {{article.views}}</p>
         <p>Downloads: {{article.downloads}}</p>
         <p>Rating: <span id="wallpaperRating">{{article.rating}}</span></p>
         <p>
-        <p><span class="glyphicon glyphicon-tags" style="margin-right: 4px"></span>Tags:
+        <p><span class="glyphicon glyphicon-tags"></span> Tags:
             {{#each article.tags }}
                 <a class="btn btn-default btn-sm"
                    href="/tag/{{this}}">{{this}}</a>
@@ -86,7 +86,8 @@
     </div>
 </div>
 
-<legend>Comments <span class="badge">{{article.commentsCount}}</span></legend>
+<legend><span class="glyphicon glyphicon-comment"></span> Comments <span class="badge">{{article.commentsCount}}</span>
+</legend>
 <div class="row" style="margin: 20px">
     <div class="pull-left">
         <a href="{{currentUrl}}?sort=rating" class="btn btn-default" id="ratingSort">Top</a>
