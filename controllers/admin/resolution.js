@@ -59,7 +59,11 @@ module.exports = {
         } else {
             let name = editArgs.width + 'x' + editArgs.height;
             editArgs.name = name;
-            Resolution.findOneAndUpdate({_id: id}, {name: editArgs.name, width: editArgs.width, height: editArgs.height}).then(resolution => {
+            Resolution.findOneAndUpdate({_id: id}, {
+                name: editArgs.name,
+                width: editArgs.width,
+                height: editArgs.height
+            }).then(resolution => {
                 res.redirect('/admin/resolution/all');
             })
         }

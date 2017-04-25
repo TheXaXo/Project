@@ -10,13 +10,13 @@ module.exports = Role;
 
 module.exports.initialize = () => {
     Role.findOne({name: 'User'}).then(role => {
-        if (!role){
+        if (!role) {
             Role.create({name: 'User'});
         }
     });
 
     Role.findOne({name: 'Admin'}).then(role => {
-        if (!role){
+        if (!role) {
             Role.create({name: 'Admin'});
         }
     });
